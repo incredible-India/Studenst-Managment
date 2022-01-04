@@ -1,0 +1,41 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block title %}
+{{block.super}}
+{% endblock title %}
+
+{% block link %}
+<link rel="stylesheet" href="{% static 'css/index.css' %}">
+
+{% endblock link %}
+
+{% block content %}
+{% include 'core/navbar.html' %}
+
+<div class="container-fluid mainSea text-center">
+
+    <img src="{% static 'img/seal.jfif'%}" alt="" class="img-fluid text-center mt-2">
+    <h1 class="seaTExt bg-light text-dark ">SEA COLLEGE OF ENGINEERING  AND <span style="color: red; ">TECHNOLOGY </span></h1>
+    <h1 class="seaTExt  element"></h1>
+    
+
+</div>
+
+{% endblock content %}
+
+
+{% block script %}
+<script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+<script>
+    var typed = new Typed('.element', {
+        strings: ["Progress Through Quality Education", "Progress Through Quality Education"],
+        typeSpeed: 30,
+  
+     
+        backDelay: 1000,
+        startDelay: 1000,
+        loop: true,
+      });
+      
+</script>
+{% endblock script %}

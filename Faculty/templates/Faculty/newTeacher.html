@@ -1,0 +1,39 @@
+{% extends 'core/base.html' %}
+
+{% load static %}
+{% block title %}
+<title>New Teacher</title>
+{% endblock title %}
+
+
+{% block content %}
+
+{% include 'core/navbar.html' %}
+
+<div class="container">
+    <p style="color: red;" class="text-center"> *All Fields Are Required</p>
+</div>
+
+<div class="container">
+<div class="row mt-3">
+    <div class="col-sm-8">
+      
+        <form action="">
+            {{form.as_p}}
+            <input type="submit" value="Submit" class="btn btn-primary btn-lg ">
+           <a href="" class="btn btn-warning btn-lg mx-2">Log In</a>
+        </form>
+
+    </div>
+    <div class="col-sm-4">
+        <div class="conatiner mx-4 text-center">
+            <img src="{% static 'img/seal.jfif' %}" alt="" class="img-fluid">
+            <h1 class="text-dark alert-info" style="padding : 5px;">Sea College Of Engineering</h1>
+        </div>
+    </div>
+</div>
+
+</div>
+
+
+{% endblock content %}
