@@ -11,21 +11,36 @@
 {% include 'core/navbar.html' %}
 
 <div class="container">
-    <p style="color: red;" class="text-center"> *All Fields Are Required</p>
+    <h2 class="text-dark alert-secondary mt-2">New Faculty Registration</h2>    <p style="color: red;" class="text-center"> *All Fields Are Required</p>
 </div>
 
+
+{% if messages %}
+{% for k in messages %} 
+
+<div class="alert alert-warning alert-dismissible fade show mt-2" role="alert">
+    <strong>{{k}}</strong> You should check in on some of those fields below.
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+
+
+{% endfor %}
+{% endif %}
+
 <div class="container">
+
 <div class="row mt-3">
     <div class="col-sm-8">
       
-        <form action="">
+        <form action="" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
             {{form.as_p}}
             <input type="submit" value="Submit" class="btn btn-primary btn-lg ">
            <a href="" class="btn btn-warning btn-lg mx-2">Log In</a>
         </form>
 
     </div>
-    <div class="col-sm-4">
+    <div class="col-sm-4 mt-2">
         <div class="conatiner mx-4 text-center">
             <img src="{% static 'img/seal.jfif' %}" alt="" class="img-fluid">
             <h1 class="text-dark alert-info" style="padding : 5px;">Sea College Of Engineering</h1>
@@ -37,3 +52,7 @@
 
 
 {% endblock content %}
+
+{% block script %}
+<script src="{% static 'js/newtacher.js'%}"></script>
+{% endblock script %}

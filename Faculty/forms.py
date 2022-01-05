@@ -1,9 +1,11 @@
 from django import forms
 from django.forms.widgets import Select
+from django.utils.regex_helper import Choice
 from . import models
 
-
+CHOICES = ['himansuh']
 class TeacherForm(forms.ModelForm):
+    # department = forms.ChoiceField(choices=CHOICES)
     class Meta:
         model =  models.Teacher
         fields = '__all__'
@@ -13,7 +15,7 @@ class TeacherForm(forms.ModelForm):
             'lname' : 'Last Name',
             'email' : 'Email ',
             'essn' :'Essn Number'
-            ,'password' : 'Password'
+            ,'password' : 'Create Password'
             ,'fimg'  : 'Profile Image'
             ,'degree' : 'Degrees'
             ,
@@ -44,8 +46,9 @@ class TeacherForm(forms.ModelForm):
                     'class':'form-control  mb-3 address' ,'rows':'2','placeholder' : 'B.Tech,M.Tech'
                 }),
 
-                'department' : Select(
-               attrs ={ 'class':'form-control' ,}
+                'department' : forms.Select(
+               attrs ={ 'class':'form-control myselect' ,}
             ),
+       
            
         }
