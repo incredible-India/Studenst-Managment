@@ -9,7 +9,7 @@ def index(request):
             mynavbar = {
                 'fname' : request.session.get('name'),
                 'o1' : 'Profile',
-                'o1l' : '/',
+                'o1l' : '/faculty/teacher/profile/',
                 'o2' : 'Logout',
                 'o2l' : '/faculty/logout',
                 'o3' : 'Student List',
@@ -24,8 +24,8 @@ def index(request):
         else:
             mynavbar = {
                 'fname' : 'User',
-                 'o1' :'Faculties',
-                 'o1l' : '/',
+                 'o1' :' New Faculty',
+                 'o1l' : '/faculty/new/teacher/registration',
                   'o2' :'Faculty login',
                   'o2l' : '/faculty/login',
                    'o3' : 'Student login',
@@ -37,8 +37,8 @@ def index(request):
     else:
         mynavbar = {
                 'fname' : 'User',
-                 'o1' :'Faculties',
-                 'o1l' : '/',
+                 'o1' :'New Faculty',
+                 'o1l' : '/faculty/new/teacher/registration',
                   'o2' :'Faculty login',
                   'o2l' : '/faculty/login',
                    'o3' : 'Student login',

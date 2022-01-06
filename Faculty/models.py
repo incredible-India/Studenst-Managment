@@ -1,5 +1,8 @@
 from django.db import models
 from django.db.models.base import Model
+from pathlib import Path
+
+# Build paths inside the project like this: BASE_DIR / 'subdir'.
 
 # Create your models here.
 # base class 
@@ -7,9 +10,9 @@ class Faculty(models.Model):
     fname = models.CharField(max_length=50,null=False)
     lname = models.CharField(max_length=50,null=False)
     email = models.EmailField(max_length=50,null=False)
-    essn = models.CharField(max_length=50,null=False)
+    essn = models.CharField(max_length=50,null=False,unique=True)
     password = models.CharField(max_length=50,null=False)
-    fimg = models.ImageField(upload_to='./static/img/')
+    fimg = models.ImageField(upload_to='./static/Faculty/img')
     degree = models.TextField()
     class Meta:
         abstract = True
@@ -25,6 +28,7 @@ class HOD(Faculty):
 class Teacher(Faculty):
     department = models.ForeignKey(HOD,on_delete=models.CASCADE, default='')
     isverified = models.BooleanField(default=False)
+
 
     
 

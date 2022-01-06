@@ -11,7 +11,10 @@ from Student_Management import middleware
 # Create your views here.
 
 class NewTeacher(View):
+    @method_decorator(middleware.verification) 
     def get(self,request):
+        if request.isverified:
+          return HttpResponseRedirect('/')
         teacherForm = forms.TeacherForm()
        
         return render(request,'faculty/newTeacher.html',{'form' : teacherForm})
@@ -41,7 +44,7 @@ class NewTeacher(View):
            
                 degree = teacherDATA.cleaned_data['degree']
                 department = request.POST.get('department')
-                print(degree, department)
+       
                 models.Teacher.objects.create(department=models.HOD.objects.get(department=department),fname=fname,lname=lname,email=email,password=password,degree=degree,fimg=request.FILES['fimg'],essn=essn
                 ).save()
                 request.session['name'] = fname
@@ -72,8 +75,8 @@ class facultyLogin(View):
         else :
             mynavbar = {
                 'fname' : 'User',
-                 'o1' :'Faculties',
-                 'o1l' : '/',
+                 'o1' :'New Faculty',
+                 'o1l' : '/faculty/new/teacher/registration',
                   'o2' :'Faculty login',
                   'o2l' : '/faculty/login',
                    'o3' : 'Student login',
@@ -81,6 +84,72 @@ class facultyLogin(View):
 
         }
             return render(request,'Faculty/login.html',{'mynavbar': mynavbar})
-        
+    @method_decorator(middleware.verification)   
     def post(self, request):
-        pass
+        if request.isverified:
+            if request.session['log'] == 'f':
+                return HttpResponseRedirect('/')
+        
+        else:
+            essn = request.POST.get('essn')
+            password = request.POST.get('password')
+            ishod = request.POST.get('ishod') 
+
+            checkValidation = validation.validatilogin(essn,password,ishod) 
+
+            if checkValidation[0] == 0:
+                 messages.info(request,checkValidation[1])
+                 return HttpResponseRedirect('/faculty/login')
+            else:
+                if ishod != None:
+                    return HttpResponse('<h1> Hod ka baad me karenge ek url bna ke</h1>')
+                else:
+                    for i in checkValidation[1]:
+                        fname = i.fname
+                    request.session['name'] = fname
+                    request.session['essn'] = str(essn)
+                    request.session['log'] = 'f'
+                    mynavbar = {
+                'fname' : request.session.get('name'),
+                'o1' : 'others',
+                'o1l' : '/',
+                'o2' : 'Logout',
+                'o2l' : '/faculty/logout',
+                'o3' : 'Student List',
+                'o3l' : '/'
+
+        }           
+                    return HttpResponseRedirect('/')
+                    # return render(request, 'Faculty/teacherView.html',{'mynavbar': mynavbar})
+    
+
+
+class teacherProfile(View):
+    @method_decorator(middleware.verification)
+    def get(self, request):
+        if request.isverified:
+            if request.session['log'] == 'f':
+                teacherdata = models.Teacher.objects.filter(essn =  request.session['essn'])
+                if len(teacherdata) == 0:
+                    return HttpResponse(" <h1> Bad request error not Exist </h1>")
+                else:
+                    mynavbar = {
+                'fname' : request.session.get('name'),
+                'o1' : 'Works',
+                'o1l' : '/',
+                'o2' : 'Logout',
+                'o2l' : '/faculty/logout',
+                'o3' : 'Student List',
+                'o3l' : '/'
+
+                }
+           
+                return render(request, 'Faculty/teacherView.html',{'mynavbar': mynavbar ,'teacherdata':teacherdata})
+                
+
+                    
+            else:
+                return HttpResponse(" <h1> Bad request </h1>")
+        else:
+            return HttpResponseRedirect('/faculty/login/')
+        

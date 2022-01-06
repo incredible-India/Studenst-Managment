@@ -1,4 +1,4 @@
-
+from .models import Teacher
 def validateTeacherForm(data):
     
     for i in range(0,10):
@@ -23,3 +23,36 @@ def validateTeacherForm(data):
         return [0,'Invalid given degree']
     else :
         return [1]
+
+
+
+
+def validatilogin(essn,password,ishod):
+    
+    if essn == '':
+        return [0,'Please enter the essn number']
+    elif password == '':
+        return [0,'Please enter the password']
+    else:
+        varifyTeacher = Teacher.objects.filter(essn = essn)
+        if len(varifyTeacher) == 0:
+
+            return [0,'Incorect Details..']
+        elif len(varifyTeacher) >  1:
+            return [0,'Incorect Details.. error m1']
+        
+        else:
+            for i in varifyTeacher:
+                passw = i.password
+            
+            if passw != password :
+                return [0,'Incorect Details..']
+            
+            else:
+                return [1,varifyTeacher]
+
+
+        
+
+
+        

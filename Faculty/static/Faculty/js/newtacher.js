@@ -7,3 +7,4 @@ document.getElementsByClassName('myselect')[0].innerHTML = `
 <option value="Electronics">Electronics</option>
 <option value="Information Science">Information Science</option>
 `
+

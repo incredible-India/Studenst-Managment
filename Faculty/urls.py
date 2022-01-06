@@ -10,5 +10,6 @@ urlpatterns = [
     path('new/teacher/registration/',views.NewTeacher.as_view(),name='teacherform'),
     path('logout/',views.facultyLogout.as_view(),name='logout'),
     path('login/',views.facultyLogin.as_view(),name='logout'),
+    path('teacher/profile/',views.teacherProfile.as_view(),name='tprofile'),
 
 ]

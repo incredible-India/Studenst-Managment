@@ -1,12 +1,28 @@
 {% extends 'core/base.html' %}
+
 {% block title %}
+
 <title>faculty login</title>
 
 {% endblock title %}
+
 {% load static %}
 {% block content %}
 
 {% include 'core/navbar.html' with p=mynavbar %}
+
+{% if messages %}
+{% for k in messages %} 
+
+<div class="alert alert-danger alert-dismissible fade show mt-2" role="alert">
+    <strong>{{k}}</strong> You should check in on some of those fields below.
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+
+
+{% endfor %}
+{% endif %}
+
 
 <div class="container mt-2  text-center">
     <img src="{% static 'img/seal.jfif' %}" alt="" class="img-fluid mt-1">
@@ -18,7 +34,7 @@
         <label for="essn" class="alert-info">Essn</label>
   </p>
    <p>
-        <input type="text" id='essn' class='form-control' placeholder='Essn number' name='essn' required>
+        <input type="text" id='essn' class='form-control' placeholder='Essn number' name='essn' required autocomplete='off'>
     </p>
   
     <p>

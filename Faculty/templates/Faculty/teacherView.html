@@ -3,11 +3,88 @@
 
 <title>Faculty </title>
 
- {% endblock %}
-{% endblock title %}
+ {% endblock title %}
+
+ {% load static %}
+
+{% block link %}
+  
+<link rel="stylesheet" href="{% static 'Faculty/css/teacherview.css' %}">
+
+{% endblock link %}
 
 {% block content %}
 
-{% include 'core/navbar.html' %}
+{% include 'core/navbar.html' with p=mynavbar%}
 
+<div class="container-fluid mkbg" >
+
+{% if teacherdata %}
+
+{% for i in teacherdata %}
+
+    <img src="{% static i.fimg %}" alt="img" class="img-fluid propic">
+
+ 
+
+{% endfor %}
+
+{% endif %}
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-8">
+
+            {% if teacherdata %}
+
+{% for i in teacherdata %}
+
+<h1 class="mt-2 text-dark">
+ {{i.fname}} {{i.lname}}
+ <br>
+<span class="mt-2 text-primary">{{i.degree}}</span>
+
+</h1>
+
+<h3 class="mt-2 text-secondary"> Essn : {{i.essn}}</h3>
+<h3 class="text-dark">{{i.department.department}}</h3>
+<a href="mailto:{{i.email}}">{{i.email}}</a>
+<hr class="text-dark">
+
+{% if i.isverified %}
+
+do sokme
+
+{% else %}
+<h4 class="text dark alert-warning">
+    Your account has not been verified by HOD of {{i.department.department}}
+</h4>
+{% endif %}
+
+
+
+
+{% endfor %}
+
+{% endif %}
+         
+
+
+
+        </div>
+
+        <div class="col-sm-4 text-center">
+            <img src="{% static 'img/seal.jfif' %}" alt="" class="img-fluid mt-1 ">
+            <h5 class="text-center element">Sea College Of Engineering And Technology</h5>
+            <hr class="text-primary">
+            {% for i in teacherdata %}
+           <h6 class="text-center text-dark"> HOD : {{i.department.fname}} {{i.department.lname}}</h6>
+           <h6 class="text-center text-dark"> ({{i.department.department}})</h6>
+            {% endfor %}
+        </div>
+    </div>
+</div>
 {% endblock content %}
+
+
