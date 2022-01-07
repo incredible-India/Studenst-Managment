@@ -1,0 +1,73 @@
+{% extends 'core/base.html' %}
+
+{% load static %}
+{% block title %}
+<title>Hod Profile</title>
+{% endblock title %}
+
+{% block link %}
+  
+<link rel="stylesheet" href="{% static 'Faculty/css/teacherview.css' %}">
+<link rel="stylesheet" href="{% static 'Faculty/css/hodview.css' %}">
+
+{% endblock link %}
+
+{% block content %}
+
+    {% include 'core/navbar.html' with p=mynavbar %}
+
+    <div class="container-fluid mkbg" >
+
+        {% if hoddata %}
+       
+        {% for i in hoddata %}
+     
+            <div class="propic">
+                <img src="{% static i.fimg %}" alt="img" class="img-fluid hod" height="300px" width="300px">
+            </div>
+
+            <h1 class="text-light text-center " style="bottom:55px; position:relative;">{{i.department}}</h1>
+          
+        
+         
+        
+        {% endfor %}
+        
+        {% endif %}
+        </div>
+
+
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-8">
+                    {% if hoddata %}
+       
+                    {% for i in hoddata %}
+
+                    <h1 class="display-4 text-dark mt-5">{{i.fname}} {{i.lname}} <span>  <h4 class=" text-secondary mt">{{i.degree}}</h4></span> </h1>
+                  
+                    <h4 class=" text-secondary mt"> ESSN {{i.essn}}</h4>
+                    <a href="mailto : {{i.email}}" class="link link-primary"><h6 class="text-dark">
+                        {{i.email}}
+                    </h6> </a>
+                    <p class="text-dark">{{i.department}}</p>
+                    <hr class="text-primary">
+                    {% endfor %}
+        
+                    {% endif %}
+
+                    
+                </div>
+
+                <div class="col-sm-4 text-center">
+                    <img src="{% static 'img/seal.jfif' %}" alt="" class="img-fluid mt-3 ">
+                    <h5 class="text-center element">Sea College Of Engineering And Technology</h5>
+                    <hr class="text-primary">
+                    <a href="{% url 'happroval' %}" class="btn btn-success btn-lg text-center"> Faculty Approval Request ({{teacherAproval}})</a>
+                    <a href="" class="btn btn-primary btn-lg text-center mt-2"> Student  Approval Request </a>
+                </div>
+            </div>
+        </div>
+
+
+{% endblock content %}

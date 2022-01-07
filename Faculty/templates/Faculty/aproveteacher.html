@@ -1,0 +1,68 @@
+{% extends 'core/base.html' %}
+
+{% load static %}
+{% block title %}
+<title>Approval</title>
+{% endblock title %}
+
+
+{% block content %}
+
+{% include 'core/navbar.html' with p=mynavbar %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-8">
+
+           
+                    {% if toaprove %}
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                              <th scope="col">First Name</th>
+                              <th scope="col">Last Name</th>
+                              <th scope="col">Essn</th>
+                              <th scope="col">Actions</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                    {% for i in toaprove %}
+                    
+                    <tr>
+                        <th scope="row">{{i.fname}}</th>
+                        <td>{{i.lname}}</td>
+                        <td>{{i.essn}}</td>
+                        <td>
+                            <a href="/faculty/{{i.essn}}" class="btn btn-outline-primary btn-sm">Approve</a>
+                            <a href="/faculty/{{i.essn}}" class="btn btn-outline-info btn-sm">Details</a>
+                        </td>
+                      
+                      </tr>
+                    
+                    {% endfor %}
+                </tbody>
+            </table>
+                    {% else %}
+
+                    <h1 class="text-dark mt-2">No  Members To Approve</h1>
+
+                    {% endif %}
+
+            
+
+        </div>
+
+        <div class="col-sm-4 text-center">
+
+            <img src="{% static 'img/seal.jfif' %}" alt="" class="img-fluid mt-3 ">
+                    <h5 class="text-center element">Sea College Of Engineering And Technology</h5>
+                    <hr class="text-primary">
+                    {% if toaprove %}
+                    <a href="{% url 'happroval' %}" class="btn btn-success btn-lg text-center">  Approve  All ({{teacherAproval}})</a>
+                    {% endif %}
+                    
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

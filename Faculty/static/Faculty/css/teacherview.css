@@ -1,8 +1,12 @@
 .mkbg
 {
-    background-image: url('./../img/campus.jpg');
+    /* background-image: url('./../img/campus.jpg'); */
+    background: linear-gradient(rgba(0, 0, 0, 0.6),rgba(0, 0, 0, 0.7)), url('./../img/campus.jpg');
     width:100%;
     height:400px;
     background-size:cover;
     background-repeat: no-repeat;
+    position: relative;
 }
+
+

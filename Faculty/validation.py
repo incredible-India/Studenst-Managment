@@ -1,6 +1,6 @@
-from .models import Teacher
+from .models import Teacher,HOD
 def validateTeacherForm(data):
-    
+    HODdata = HOD.objects.filter(essn = data["essn"])
     for i in range(0,10):
         if str(i) in data['fname']:
                  return [0,'First name  connot contains numbers or special characters']
@@ -21,6 +21,9 @@ def validateTeacherForm(data):
         return [0,'Password should contain at least one special character']
     elif data['degree'] == '' or len(data['degree']) <= 2 :
         return [0,'Invalid given degree']
+    elif len(HODdata) != 0:
+
+            return [0,'Usn Already Exist']
     else :
         return [1]
 
@@ -35,11 +38,14 @@ def validatilogin(essn,password,ishod):
         return [0,'Please enter the password']
     else:
         varifyTeacher = Teacher.objects.filter(essn = essn)
+      
         if len(varifyTeacher) == 0:
 
             return [0,'Incorect Details..']
         elif len(varifyTeacher) >  1:
             return [0,'Incorect Details.. error m1']
+
+        
         
         else:
             for i in varifyTeacher:
@@ -54,5 +60,27 @@ def validatilogin(essn,password,ishod):
 
         
 
+def checkvalidationHOD(essn,password):
+    if essn == '':
+        return [0,'Please enter the essn number']
+    elif password == '':
+        return [0,'Please enter the password']
+    else:
+        myhod = HOD.objects.filter(essn = essn)
+      
+        if len(myhod) == 0:
 
+            return [0,'Incorect Details..']
+        elif len(myhod) >  1:
+            return [0,'Incorect Details.. error m1']
+        
+        else:
+            for i in myhod:
+                passw = i.password
+            
+            if passw != password :
+                return [0,'Incorect Details..']
+            
+            else:
+                return [1,myhod]
         

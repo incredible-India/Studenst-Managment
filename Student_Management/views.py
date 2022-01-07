@@ -18,7 +18,18 @@ def index(request):
         }
             return render(request,'index.html',{'mynavbar':mynavbar})
         elif request.log == 'h':
-            pass
+            mynavbar = {
+                'fname' : request.session.get('name'),
+                'o1' : 'Profile',
+                'o1l' : '/faculty/hod/profile/',
+                'o2' : 'Logout',
+                'o2l' : '/faculty/logout',
+                'o3' : 'Student List',
+                'o3l' : '/'
+
+        }
+            return render(request,'index.html',{'mynavbar':mynavbar})
+           
         elif request.log == 's':
             pass
         else:

@@ -8,6 +8,7 @@ from .  import validation
 from django.contrib import messages
 from django.utils.decorators import method_decorator
 from Student_Management import middleware
+from django.db.models import Q 
 # Create your views here.
 
 class NewTeacher(View):
@@ -57,7 +58,7 @@ class facultyLogout(View):
     @method_decorator(middleware.verification)
     def get(self, request):
         if request.isverified:
-            if request.log == 'f':
+            if request.log == 'f' or request.session['log'] == 'h':
                 del request.session['log']
                 del request.session['name']
                 del request.session['essn']
@@ -87,22 +88,40 @@ class facultyLogin(View):
     @method_decorator(middleware.verification)   
     def post(self, request):
         if request.isverified:
-            if request.session['log'] == 'f':
+            if request.session['log'] == 'f' or request.session['log'] == 'h':
                 return HttpResponseRedirect('/')
         
         else:
             essn = request.POST.get('essn')
             password = request.POST.get('password')
             ishod = request.POST.get('ishod') 
+            # for the hod
+            if ishod != None:
+                    checkHODValidation = validation.checkvalidationHOD(essn,password)
+                    if checkHODValidation[0] == 0:
+                        messages.info(request,checkHODValidation[1])
+                        return HttpResponseRedirect('/faculty/login')
+                    
+                    else:
+            
+                        for i in checkHODValidation[1]:
+                            fname = i.fname
+                        request.session['name'] = fname
+                        request.session['essn'] = str(essn)
+                        request.session['log'] = 'h'
+                        
+                        return HttpResponseRedirect('/')
 
-            checkValidation = validation.validatilogin(essn,password,ishod) 
+            # for the Faculty
+            else:
 
-            if checkValidation[0] == 0:
+                checkValidation = validation.validatilogin(essn,password,ishod) 
+
+                if checkValidation[0] == 0:
                  messages.info(request,checkValidation[1])
                  return HttpResponseRedirect('/faculty/login')
-            else:
-                if ishod != None:
-                    return HttpResponse('<h1> Hod ka baad me karenge ek url bna ke</h1>')
+   
+                
                 else:
                     for i in checkValidation[1]:
                         fname = i.fname
@@ -119,7 +138,7 @@ class facultyLogin(View):
                 'o3l' : '/'
 
         }           
-                    return HttpResponseRedirect('/')
+                return HttpResponseRedirect('/')
                     # return render(request, 'Faculty/teacherView.html',{'mynavbar': mynavbar})
     
 
@@ -152,4 +171,69 @@ class teacherProfile(View):
                 return HttpResponse(" <h1> Bad request </h1>")
         else:
             return HttpResponseRedirect('/faculty/login/')
-        
+
+
+
+# for the prifile of hod
+
+class HodProfile(View):
+    @method_decorator(middleware.verification)
+    def get(self, request):
+        if request.isverified:
+            if request.session['log'] == 'h':
+                hoddata = models.HOD.objects.filter(essn =  request.session['essn'])
+                hoddepart = models.HOD.objects.get(essn =  request.session['essn'])
+             
+                teaherAproval = models.Teacher.objects.filter(Q(isverified =False) & Q(department = hoddepart.id))
+
+           
+
+                if len(hoddata) == 0:
+                    return HttpResponse(" <h1> Bad request error not Exist </h1>")
+                else:
+                    mynavbar = {
+                'fname' : request.session.get('name'),
+                'o1' : 'Works',
+                'o1l' : '/',
+                'o2' : 'Logout',
+                'o2l' : '/faculty/logout',
+                'o3' : 'Student List',
+                'o3l' : '/'
+
+                }
+           
+                return render(request, 'Faculty/hodView.html',{'mynavbar': mynavbar ,'hoddata':hoddata,'teacherAproval' :len(teaherAproval)})
+                
+
+                    
+            else:
+                return HttpResponse(" <h1> Bad request </h1>")
+        else:
+            return HttpResponseRedirect('/faculty/login/')
+
+
+
+# for thr aproval list  
+class giveAproval(View):
+    @method_decorator(middleware.verification)
+    def get(self, request):
+        if request.isverified:
+            if request.session['log'] == 'h':
+                hoddepart = models.HOD.objects.get(essn =  request.session['essn'])
+             
+                teaherAproval = models.Teacher.objects.filter(Q(isverified =False) & Q(department = hoddepart.id))
+                mynavbar = {
+                'fname' : request.session.get('name'),
+                'o1' : 'Works',
+                'o1l' : '/',
+                'o2' : 'Logout',
+                'o2l' : '/faculty/logout',
+                'o3' : 'Student List',
+                'o3l' : '/'
+                }
+           
+                return render(request, 'Faculty/aproveteacher.html',{'mynavbar': mynavbar ,'teacherAproval' :len(teaherAproval),'toaprove' : teaherAproval})
+            else:
+                return HttpResponse(" <h1> Bad request </h1>")
+        else:
+            return HttpResponseRedirect('/faculty/login/')  
