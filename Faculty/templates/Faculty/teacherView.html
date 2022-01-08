@@ -41,9 +41,11 @@
 {% for i in teacherdata %}
 
 <h1 class="mt-2 text-dark">
- {{i.fname}} {{i.lname}}
+ {{i.fname}} {{i.lname}}  {% if i.isverified %}
+ <i class="fas fa-check-circle" style="color : rgba(0,100,255,1)" title ='Verified Account'>
+ {% endif %} </i>
  <br>
-<span class="mt-2 text-primary">{{i.degree}}</span>
+<span class="mt-2 text-primary">{{i.degree}}  </span>
 
 </h1>
 

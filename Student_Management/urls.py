@@ -22,4 +22,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('',sameView.index,name='home' ),
     path('faculty/',include('Faculty.urls') ),
+    path('student/',include('Student.urls') ),
 ]

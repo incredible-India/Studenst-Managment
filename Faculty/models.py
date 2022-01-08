@@ -3,7 +3,25 @@ from django.db.models.base import Model
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
+Sec_CHOICES =(
+    ("1", "A"),
+    ("2", "B"),
+    ("3", "C"),
+    ("4", "D"),
 
+)
+
+Sem_CHOICES =(
+    ("1", "1st sem"),
+    ("2", "2nd sem"),
+    ("3", "3rd sem"),
+    ("4", "4th sem"),
+    ("5", "5th sem"),
+    ("6", "6th sem"),
+    ("7", "7th sem"),
+    ("8", "8th sem"),
+
+)
 # Create your models here.
 # base class 
 class Faculty(models.Model):
@@ -35,8 +53,8 @@ class Teacher(Faculty):
 
 class Teaches(models.Model):
     teacher = models.ForeignKey(Teacher,on_delete=models.CASCADE)
-    section = models.CharField(max_length=10)
-    sem = models.CharField(max_length=10,null=False)
+    section = models.CharField(max_length=10,choices = Sec_CHOICES,default=None)
+    sem = models.CharField(max_length=10,null=False,choices = Sem_CHOICES,default=None)
     subject = models.CharField(max_length=40,null=False)
 
 

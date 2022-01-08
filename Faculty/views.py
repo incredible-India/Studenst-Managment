@@ -106,7 +106,7 @@ class facultyLogin(View):
             
                         for i in checkHODValidation[1]:
                             fname = i.fname
-                        request.session['name'] = fname
+                        request.session['fname'] = fname
                         request.session['essn'] = str(essn)
                         request.session['log'] = 'h'
                         
@@ -237,3 +237,70 @@ class giveAproval(View):
                 return HttpResponse(" <h1> Bad request </h1>")
         else:
             return HttpResponseRedirect('/faculty/login/')  
+
+
+
+        
+
+
+# single Aproval Faculty 
+
+class ApprovalInduvidual(View):
+    
+    def get(self, request,id):
+        fname = request.session.get('fname',None)
+        essn = request.session.get('essn',None)
+        log = request.session.get('log',None)
+
+        if fname == None and essn == None and log == None:
+            return HttpResponseRedirect('/faculty/login')
+        else:
+            if log == 'h':
+
+                # checking the hod verification
+                hod = models.HOD.objects.filter(essn = essn)
+                if len(hod) == 0:
+                    return HttpResponse("<h1> Unauthorised Access </h1>")
+                else:
+                    hods = models.HOD.objects.get(essn = essn)
+                    teacher = models.Teacher.objects.get(essn = id)
+
+                    if hods.department == teacher.department.department:
+                        updateinfo = models.Teacher.objects.filter(essn = id).update(isverified = True)
+                        return HttpResponseRedirect('/faculty/hod/teacher/aproval/')
+                    else:
+                             return HttpResponse("<h1> Unauthorised Access </h1>")
+
+
+
+                
+          
+            else:
+                return HttpResponse(" <h1> Bad request </h1>")
+
+
+
+class ApprovalForAllFaculty(View):
+    @method_decorator(middleware.verification)
+    def get(self, request):
+         if request.isverified:
+            if request.session['log'] == 'h':
+                print(request.fname,request.essn)
+                hod = models.HOD.objects.filter(Q(essn = request.essn) & Q(fname = request.fname))
+
+                if len(hod) == 0:
+                    return HttpResponse("<h1> Unauthorised Access </h1>")
+                else:
+                    hods = models.HOD.objects.get(essn = request.essn)
+
+                    teacher = models.Teacher.objects.all()
+
+                    for i in teacher :
+                        if i.department.department == hods.department:
+                            models.Teacher.objects.filter(id=i.id).update(isverified = True)
+
+                    
+                    return HttpResponseRedirect("/faculty/hod/teacher/aproval/")
+
+
+

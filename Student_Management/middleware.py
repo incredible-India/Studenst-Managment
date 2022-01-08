@@ -8,7 +8,7 @@ class verification:
         essn = request.session.get('essn',None)
         log = request.session.get('log',None)
 
-        if fname == None and essn == None and log == None:
+        if fname == None or essn == None or log == None:
             request.isverified = False
         else:
             request.isverified = True

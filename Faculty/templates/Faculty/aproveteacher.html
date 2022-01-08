@@ -33,7 +33,7 @@
                         <td>{{i.lname}}</td>
                         <td>{{i.essn}}</td>
                         <td>
-                            <a href="/faculty/{{i.essn}}" class="btn btn-outline-primary btn-sm">Approve</a>
+                            <a href="/faculty/teacher/{{i.essn}}/aproveit" class="btn btn-outline-primary btn-sm">Approve</a>
                             <a href="/faculty/{{i.essn}}" class="btn btn-outline-info btn-sm">Details</a>
                         </td>
                       
@@ -45,6 +45,8 @@
                     {% else %}
 
                     <h1 class="text-dark mt-2">No  Members To Approve</h1>
+                    <hr>
+                    <a href="/faculty/hod/profile/" class="btn btn-outline-primary btn-lg">Go Back</a>
 
                     {% endif %}
 
@@ -58,7 +60,7 @@
                     <h5 class="text-center element">Sea College Of Engineering And Technology</h5>
                     <hr class="text-primary">
                     {% if toaprove %}
-                    <a href="{% url 'happroval' %}" class="btn btn-success btn-lg text-center">  Approve  All ({{teacherAproval}})</a>
+                    <a href="{% url 'happrovalall' %}" class="btn btn-success btn-lg text-center">  Approve  All ({{teacherAproval}})</a>
                     {% endif %}
                     
         </div>
