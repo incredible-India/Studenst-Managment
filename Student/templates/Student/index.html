@@ -1,11 +1,32 @@
 {% extends 'core/base.html' %}
-
+{% load static %}
 {% block title %}
 <title>Student Registration</title>
 {% endblock title %}
 
 {% block content %}
+{% include 'core/navbar.html' with p=mynavbar%}
+<div class="container mt-4">
+    <h1 class="text-dark bg-info">Student Registration</h1>
+    <div class="row">
+        <div class="col-sm-8">
+         <form action="" method="post">
+             {% csrf_token %}
+             {{sform}}
 
-{{sform}}
+             <input type="submit" value="Submit" class="btn btn-primary mt-2">
+         </form>
+        </div>
+
+        <div class="col-sm-4 text-center">
+            <img src="{% static 'img/seal.jfif' %}" alt="" class="img-fluid mt-3 ">
+            <h5 class="text-center element">Sea College Of Engineering And Technology</h5>
+            <hr class="text-primary">
+            <img src="{% static 'Student/img/1st.png' %}" alt="" class="img-fluid mt-3 ">
+        </div>
+    </div>
+
+ 
+</div>
 
 {% endblock content %}

@@ -5,6 +5,6 @@ from . import views as sv
 
 urlpatterns = [
   
-    path('',sv.index.as_view(),name='sshome' ),
+    path('registrations/',sv.index.as_view(),name='sshome' ),
    
 ]

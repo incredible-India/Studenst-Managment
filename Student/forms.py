@@ -19,7 +19,7 @@ class StudentForm(forms.ModelForm):
             ,'section' : 'Section'
             ,'classTeacher' : 'Class Teacher'
             ,
-            'department' : 'Department',
+            'department' : 'Branch',
             'mobile' : 'Mobile',
             'cycle' : 'Cycle',
            
@@ -44,6 +44,9 @@ class StudentForm(forms.ModelForm):
                 'simg' : forms.FileInput(
                attrs ={ 'class' : 'form-control',}
             ),
+               'section' : forms.Select(attrs = { 
+                    'class':'form-control  mb-3 address' ,'rows':'2','placeholder' : 'B.Tech,M.Tech'
+                }),
 
                 'sem' : forms.Select(attrs = { 
                     'class':'form-control  mb-3 address' ,'rows':'2','placeholder' : 'B.Tech,M.Tech'
@@ -55,6 +58,15 @@ class StudentForm(forms.ModelForm):
                 'classTeacher' : forms.Select(
                attrs ={ 'class':'form-control myselect' ,}
             ),
+
+             'mobile' : forms.NumberInput(attrs = { 
+                    'class':'form-control  mb-3 address' 
+                }),
+
+                      'cycle' : forms.Select(
+               attrs ={ 'class' : 'form-control',}
+            ),
+
 
 
        
