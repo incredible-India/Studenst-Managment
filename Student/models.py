@@ -21,9 +21,9 @@ Sem_CHOICES =(
 
 )
 
-Sec_CHOICES = (
+cycle_CHOICES = (
 
-    ("1" , None),
+    ("1" , 'None'),
     ("2" ,'Physics'),
     ("3" , 'Chemistry'),
 
@@ -32,7 +32,7 @@ Sec_CHOICES = (
 
 class Student(models.Model):
     department = models.ForeignKey(HOD,on_delete=models.CASCADE)
-    classTeacher = models.ForeignKey(Teacher,on_delete=models.CASCADE,default=None)
+    classTeacher = models.ForeignKey(Teacher,on_delete=models.CASCADE,default=None,null=True)
     fname = models.CharField(max_length=50,null=False)
     lname = models.CharField(max_length=50,null=False)
     password = models.CharField(max_length=50,null=False,default=None)
@@ -41,6 +41,7 @@ class Student(models.Model):
     mobile =models.BigIntegerField()
     sem = models.CharField(max_length=10,null=False,choices = Sem_CHOICES,default=None)
     section = models.CharField(max_length=3 ,choices = Sec_CHOICES,default=None,null=False)
-    cycle = models.CharField(max_length=20,default=None, choices = Sec_CHOICES,)
-    simg  = models.ImageField(upload_to='./static/student/img', default=None)
+    cycle = models.CharField(max_length=20,default=None, choices = cycle_CHOICES,)
+    simg  = models.ImageField(upload_to='./static/student/img')
     isverified = models.BooleanField(default=False)
+

@@ -7,7 +7,7 @@ class StudentForm(forms.ModelForm):
     class Meta:
         model =  Student
         fields = ['fname','lname','usn','email','mobile','section','sem','cycle','department','classTeacher','simg','password']
-        exclude = ['isverified']
+        exclude = ['isverified','classTeacher']
         labels = {
             'fname' : 'First Name',
             'lname' : 'Last Name',
@@ -53,7 +53,7 @@ class StudentForm(forms.ModelForm):
                 }),
 
                 'department' : forms.Select(
-               attrs ={ 'class':'form-control myselect' ,}
+               attrs ={ 'class':'form-control departments' ,}
             ),
                 'classTeacher' : forms.Select(
                attrs ={ 'class':'form-control myselect' ,}
