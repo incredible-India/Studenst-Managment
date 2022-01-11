@@ -1,0 +1,57 @@
+{% extends 'core/base.html' %}
+
+{% block title %}
+
+<title>Student login</title>
+
+{% endblock title %}
+
+{% load static %}
+{% block content %}
+
+{% include 'core/navbar.html' with p=mynavbar %}
+
+{% if messages %}
+{% for k in messages %} 
+
+<div class="alert alert-danger alert-dismissible fade show mt-2" role="alert">
+    <strong>{{k}}</strong> You should check in on some of those fields below.
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+
+
+{% endfor %}
+{% endif %}
+
+<div class="container">
+    <h1 class="text-dark alert-info mt-3 text-center">Student Login</h1>
+</div>
+
+<div class="container mt-2  text-center">
+    <img src="{% static 'img/seal.jfif' %}" alt="" class="img-fluid mt-1">
+    <form action="" class="text-center" method="post">
+  {% csrf_token %}
+ 
+  <div class="container" style="margin-top:2px; width:300px;">
+    <p>
+        <label for="essn" class="alert-info">Essn</label>
+  </p>
+   <p>
+        <input type="text" id='essn' class='form-control' placeholder='Essn number' name='usn' required autocomplete='off'>
+    </p>
+  
+    <p>
+      <label for="password" class='alert-info'>Password</label>
+  
+  </p>
+  <p>
+      <input type="password" id='password' class='form-control' placeholder='password' name='password' required>
+  </p>
+
+      <input type="submit" value='Log in' class='btn btn-success'>
+  </div>
+
+    </form>
+</div>
+
+{% endblock content %}

@@ -120,6 +120,7 @@ class facultyLogin(View):
                 if checkValidation[0] == 0:
                  messages.info(request,checkValidation[1])
                  return HttpResponseRedirect('/faculty/login')
+                
    
                 
                 else:

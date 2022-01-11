@@ -42,6 +42,6 @@ class Student(models.Model):
     sem = models.CharField(max_length=10,null=False,choices = Sem_CHOICES,default=None)
     section = models.CharField(max_length=3 ,choices = Sec_CHOICES,default=None,null=False)
     cycle = models.CharField(max_length=20,default=None, choices = cycle_CHOICES,)
-    simg  = models.ImageField(upload_to='./static/student/img')
+    simg  = models.ImageField(upload_to='static/Student/img')
     isverified = models.BooleanField(default=False)
 

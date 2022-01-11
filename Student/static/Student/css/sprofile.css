@@ -1,0 +1,52 @@
+body{
+    overflow-x: hidden;
+    background: rebeccapurpl;
+
+}
+
+/* .spro{
+    box-shadow:  0 0 1px; */
+
+    /* margin-right: 0.5rem!important;
+margin-left: 0.5rem!important;
+border: 2px solid darkgrey;
+width: 340px; */
+
+/* } */
+/* .edit-img{
+    width: 306px;
+    margin-top: 16px;
+  
+}
+.edit-div{
+    
+margin-right: 0.5rem!important;
+margin-left: 0.5rem!important;
+border: 2px solid darkgrey;
+width: 340px;
+
+position: relative;
+left: 75px;
+top: 30px;
+}
+
+.details{
+    position: absolute;
+    left: 215px;
+    top: 54px;
+
+}
+.sub-details li{
+    font-size: 27px;
+    list-style: none;
+    font-family: arial;
+}
+ */
+
+  /* line 71 */
+
+  .edit-title
+{
+    color: white;
+    background-image:linear-gradient(crimson,tomato);
+}

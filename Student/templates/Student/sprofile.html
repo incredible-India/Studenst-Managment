@@ -1,0 +1,93 @@
+{% extends 'core/base.html' %}
+{% block title %}
+ <title>   Student Profile</title>
+{% endblock title %}
+
+{% load static %}
+
+{% block content %}
+
+{% block link %}
+<link rel="stylesheet" href="{% static  'Student/css/sprofile.css' %}">
+{% endblock link %}
+{% include 'core/navbar.html' with p=mynavbar%}
+<div class="cotainer t mt-3">
+{% if st %}
+<div class="row">
+{% for i in st %}
+
+
+<div class="col-sm-4 text-center">
+    <img src="{{i.simg.url}}" alt="" class = 'imf-fluid text-center ' width="250px" height="300px">
+    <h2 class="mx-2 mt-2 text-center edit-title">{{i.fname}} {{i.lname}}</h2>
+    <h5 class="text-dark mx-2 mt-2  text-center">{{i.department.department}}</h5>
+    <h6 class="text-dark mx-2 mt-2  text-center">HOD : {{i.department.fname}} {{i.department.lname}}</h6>
+    <hr class="text-dark">
+    <img src="{% static 'img/seal.jfif' %}" alt="" class="img-fluid mt-1">
+    <h5 class="text-center element">Sea College Of Engineering And Technology</h5>
+</div>
+<div class="col-sm-8 text-center">
+    <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">Sem</th>
+            <th scope="col">Section</th>
+            <th scope="col">USN</th>
+            <th scope="col">Cycle</th>
+                <th scope="col">Mobile</th>
+                <th scope="col">Email</th>
+   
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">{{i.sem}}</td>
+
+                {% if i.section == '1' %}
+                <td>A</td>
+
+                {% elif  i.section == '2' %}
+                <td>B</td>
+
+                {% elif i.section == '3'%}
+                <td>C</td>
+
+                {% else %}
+                <td>D</td>
+                {% endif %}
+
+            <td>{{i.usn}}</td>
+
+            {% if i.cycle == '3' %}
+            <td>NChemistry</td>
+
+            {% elif i.cycle == '2' %}
+            <td>Physics</td>
+            {% else %}
+            <td>None</td>
+            {% endif %}
+         
+            <td>{{i.mobile}}</td>
+            <td>{{i.email}}</td>
+     
+          </tr>
+        
+        </tbody>
+      </table>
+
+
+    {% if i.isverified %}
+    <h1>Do Something</h1>
+    {% else %}
+    <h2 class="text-dark mt-2 alert-danger" >Your Account Has Not Been verified Yet !</h2>
+    {% endif %}
+</div>
+
+ 
+
+
+{% endfor %}
+</div>
+{% endif %}
+</div>
+{% endblock content %}
