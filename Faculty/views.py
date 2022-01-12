@@ -9,6 +9,7 @@ from django.contrib import messages
 from django.utils.decorators import method_decorator
 from Student_Management import middleware
 from django.db.models import Q 
+from Student.models import Student 
 # Create your views here.
 
 class NewTeacher(View):
@@ -106,7 +107,7 @@ class facultyLogin(View):
             
                         for i in checkHODValidation[1]:
                             fname = i.fname
-                        request.session['fname'] = fname
+                        request.session['name'] = fname
                         request.session['essn'] = str(essn)
                         request.session['log'] = 'h'
                         
@@ -186,6 +187,7 @@ class HodProfile(View):
                 hoddepart = models.HOD.objects.get(essn =  request.session['essn'])
              
                 teaherAproval = models.Teacher.objects.filter(Q(isverified =False) & Q(department = hoddepart.id))
+                StudentAproval = Student.objects.filter(Q(isverified =False) & Q(department = hoddepart.id))
 
            
 
@@ -203,7 +205,7 @@ class HodProfile(View):
 
                 }
            
-                return render(request, 'Faculty/hodView.html',{'mynavbar': mynavbar ,'hoddata':hoddata,'teacherAproval' :len(teaherAproval)})
+                return render(request, 'Faculty/hodView.html',{'mynavbar': mynavbar ,'hoddata':hoddata,'teacherAproval' :len(teaherAproval),'studentAproval':len(StudentAproval)})
                 
 
                     
@@ -249,7 +251,7 @@ class giveAproval(View):
 class ApprovalInduvidual(View):
     
     def get(self, request,id):
-        fname = request.session.get('fname',None)
+        fname = request.session.get('name',None)
         essn = request.session.get('essn',None)
         log = request.session.get('log',None)
 
@@ -286,7 +288,7 @@ class ApprovalForAllFaculty(View):
     def get(self, request):
          if request.isverified:
             if request.session['log'] == 'h':
-                print(request.fname,request.essn)
+          
                 hod = models.HOD.objects.filter(Q(essn = request.essn) & Q(fname = request.fname))
 
                 if len(hod) == 0:
@@ -305,3 +307,88 @@ class ApprovalForAllFaculty(View):
 
 
 
+# Approva for the student individial
+
+class giveStudentApproval(View):
+    @method_decorator(middleware.verification)
+    def get(self, request):
+        if request.isverified:
+            if request.log =='h':
+                hoddepart = models.HOD.objects.get(essn =  request.session['essn'])
+             
+                StudentAproval = Student.objects.filter(Q(isverified =False) & Q(department = hoddepart.id))
+                mynavbar = {
+                'fname' : request.session.get('name'),
+                'o1' : 'Works',
+                'o1l' : '/',
+                'o2' : 'Logout',
+                'o2l' : '/faculty/logout',
+                'o3' : 'Student List',
+                'o3l' : '/'
+                }
+           
+                return render(request, 'Student/aproveStudent.html',{'mynavbar': mynavbar ,'teacherAproval' :len(StudentAproval),'toaprove' : StudentAproval})
+                
+            else:
+                return HttpResponse('<h1> Bad Request </h1>')
+        else:
+            return HttpResponseRedirect('/faculty/login')
+
+
+
+class StudentAprovalIndividual(View):
+    def get(self, request,id):
+        fname = request.session.get('name',None)
+        essn = request.session.get('essn',None)
+        log = request.session.get('log',None)
+
+        if fname == None and essn == None and log == None:
+            return HttpResponseRedirect('/faculty/login')
+        else:
+            if log == 'h':
+
+                # checking the hod verification
+                hod = models.HOD.objects.filter(essn = essn)
+                if len(hod) == 0:
+                    return HttpResponse("<h1> Unauthorised Access </h1>")
+                else:
+                    hods = models.HOD.objects.get(essn = essn)
+                    students = Student.objects.get(usn = id.upper())
+
+                    if hods.department == students.department.department:
+                        updateinfo = Student.objects.filter(usn = id.upper()).update(isverified = True)
+                        return HttpResponseRedirect('/faculty/hod/student/aproval/')
+                    else:
+                             return HttpResponse("<h1> Unauthorised Access </h1>")
+
+
+
+                
+          
+            else:
+                return HttpResponse(" <h1> Bad request </h1>")
+       
+
+
+class studentAllApproval(View):
+
+    @method_decorator(middleware.verification)
+    def get(self, request):
+         if request.isverified:
+            if request.session['log'] == 'h':
+          
+                hod = models.HOD.objects.filter(Q(essn = request.essn) & Q(fname = request.fname))
+
+                if len(hod) == 0:
+                    return HttpResponse("<h1> Unauthorised Access </h1>")
+                else:
+                    hods = models.HOD.objects.get(essn = request.essn)
+
+                    students = Student.objects.all()
+
+                    for i in students :
+                        if i.department.department == hods.department:
+                            Student.objects.filter(id=i.id).update(isverified = True)
+
+                    
+                    return HttpResponseRedirect("/faculty/hod/student/aproval/")

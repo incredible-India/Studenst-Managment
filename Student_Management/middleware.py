@@ -4,7 +4,7 @@ class verification:
 
     
     def __call__(self,request):
-        fname = request.session.get('fname',None)
+        fname = request.session.get('name',None)
         essn = request.session.get('essn',None)
         log = request.session.get('log',None)
 

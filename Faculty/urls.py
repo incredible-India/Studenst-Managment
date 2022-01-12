@@ -14,6 +14,8 @@ urlpatterns = [
     path('hod/profile/',views.HodProfile.as_view(),name='hprofile'),
     path('hod/teacher/aproval/',views.giveAproval.as_view(),name='happroval'),
     path('teacher/<str:id>/aproveit/',views.ApprovalInduvidual.as_view()),
-    path('teacher/approve/all/faculties/',views.ApprovalForAllFaculty.as_view(),name='happrovalall')
-
+    path('teacher/approve/all/faculties/',views.ApprovalForAllFaculty.as_view(),name='happrovalall'),
+    path('hod/student/aproval/',views.giveStudentApproval.as_view(),name='studentapprove'),
+    path('student/<str:id>/aproveit/',views.StudentAprovalIndividual.as_view(),name='studentapprove'),
+    path('student/approve/student/',views.studentAllApproval.as_view(),name='stapprovalall'),
 ]
