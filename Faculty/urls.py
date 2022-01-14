@@ -18,4 +18,5 @@ urlpatterns = [
     path('hod/student/aproval/',views.giveStudentApproval.as_view(),name='studentapprove'),
     path('student/<str:id>/aproveit/',views.StudentAprovalIndividual.as_view(),name='studentapprove'),
     path('student/approve/student/',views.studentAllApproval.as_view(),name='stapprovalall'),
+    path('<str:whome>/<str:id>/',views.Genralprofile.as_view(),name='stapprovalall'),
 ]

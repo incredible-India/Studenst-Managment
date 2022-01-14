@@ -1,0 +1,164 @@
+{% extends 'core/base.html' %}
+
+{% block title %}
+<title>
+    Profile
+</title>
+{% endblock title %}
+
+{% load static %}
+
+{% block content %}
+
+    {% include 'core/navbar.html' with p=mynavbar %}
+
+   {% if data == 1 %}
+   
+   {% comment %} for the teacher {% endcomment %}
+   <div class="container mt-3">
+    <table class="table">
+        <thead class="thead-light">
+          <tr>
+            <th scope="col">Profile</th>
+            <th scope="col">Name
+            <th scope="row">Essn</th>
+            <th>Email</th>
+            <th>Degree</th>
+            <th>Department</th>
+          </tr>
+          </thead>
+          <tbody>
+            {% if teacherdata %}
+            {% for i in teacherdata %}
+            
+            <tr>
+                <th scope="row">
+                    {% comment %} <img src="{% static i.fimg %}" alt="img" class="img-fluid hod" height="300px" width="300px"> {% endcomment %}
+                    <img src="{{i.fimg.url}}" alt="" width="300px" height="300px">
+                </th>
+                <th class="table-secondary">{{i.fname}} {{i.lname}}</th>
+                <th class="table-primary">{{i.essn}}</th>
+                <th class="table-info">{{i.email}}</th>
+                <th class="table-success">{{i.degree}}</th>
+                <th class="table-warning">{{i.department.department}}</th>
+           
+              </tr>
+            {% endfor %}
+
+            {% endif %}
+      
+        </tbody>
+      </table>
+</div>
+   
+   <div class="container mt-5">
+       <a href="" class="btn btn-primary"> Send Message</a>
+   </div>
+
+   
+   {% elif data == 2 %}
+
+   {% comment %} for the hod {% endcomment %}
+   <div class="container mt-3">
+    <table class="table">
+        <thead class="thead-light">
+          <tr>
+            <th scope="col">Profile</th>
+            <th scope="col">Name
+            <th scope="row">Essn</th>
+            <th>Email</th>
+            <th>Degree</th>
+            <th>Department</th>
+          </tr>
+          </thead>
+          <tbody>
+            {% if HODdata %}
+            {% for i in HODdata %}
+            
+            <tr>
+                <th scope="row">
+                    <img src="{% static i.fimg %}" alt="img" class="img-fluid hod" height="300px" width="300px">
+                    {% comment %} <img src="{{i.fimg.url}}" alt=""> {% endcomment %}
+                </th>
+                <th class="table-secondary">{{i.fname}} {{i.lname}}</th>
+                <th class="table-primary">{{i.essn}}</th>
+                <th class="table-info">{{i.email}}</th>
+                <th class="table-success">{{i.degree}}</th>
+                <th class="table-warning">{{i.department}}</th>
+           
+              </tr>
+            {% endfor %}
+
+            {% endif %}
+      
+        </tbody>
+      </table>
+</div>
+   
+   <div class="container mt-5">
+       <a href="" class="btn btn-primary"> Send Message</a>
+   </div>
+
+   {% elif data == 3 %}
+
+   {% comment %} for the students  {% endcomment %}
+   <div class="container mt-3">
+    <table class="table">
+        <thead class="thead-light">
+          <tr>
+            <th scope="col">Profile</th>
+            <th scope="col">Name
+            <th scope="row">Usn</th>
+            <th>Email</th>
+            <th>Branch</th>
+            <th>Section</th>
+            <th>Semester</th>
+          </tr>
+          </thead>
+          <tbody>
+            {% if St %}
+            {% for i in St %}
+            
+            <tr>
+                <th scope="row">
+                    {% comment %} <img src="{% static i.fimg %}" alt="img" class="img-fluid hod" height="300px" width="300px"> {% endcomment %}
+                    <img src="{{i.simg.url}}" alt="" width="300px" height="300px">
+                </th>
+                <th class="table-secondary">{{i.fname}} {{i.lname}}</th>
+                <th class="table-primary">{{i.usn}}</th>
+                <th class="table-info">{{i.email}}</th>
+                <th class="table-success">{{i.department.department}}</th>
+                {% if i.section == '1' %}
+                <td class='table-warning'>A</td>
+
+                {% elif  i.section == '2' %}
+                <td class='table-warning'>B</td>
+
+                {% elif i.section == '3'%}
+                <td class='table-warning'>C</td>
+
+                {% else %}
+                <td class='table-warning'>D</td>
+                {% endif %}
+                <th class="table-warning">{{i.sem}}</th>
+           
+              </tr>
+            {% endfor %}
+
+            {% endif %}
+      
+        </tbody>
+      </table>
+</div>
+   
+   <div class="container mt-5">
+       <a href="" class="btn btn-primary"> Send Message</a>
+   </div>
+
+   {% else %}
+
+   <h1>Bad request...</h1>
+   
+   {% endif %}
+
+{% endblock content %}

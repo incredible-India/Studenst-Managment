@@ -1,3 +1,4 @@
+import re
 from django.http import response
 from django.shortcuts import redirect, render,HttpResponse,HttpResponseRedirect
 # from cryptography.fernet import Ferne 
@@ -392,3 +393,107 @@ class studentAllApproval(View):
 
                     
                     return HttpResponseRedirect("/faculty/hod/student/aproval/")
+
+
+
+
+# Genral Profile for all
+@middleware.verification
+def checkUserLogin(request):
+    if request.isverified:
+       
+
+        return [True,request.log]
+    else:
+        return [False]
+
+class Genralprofile(View):
+    def get(self, request,whome,id):
+        
+        k = checkUserLogin(request)
+
+        if k[0] == True:
+            if request.log == 'h':
+                mynavbar = {
+                'fname' : request.session.get('name'),
+                'o1' : 'Works',
+                'o1l' : '/',
+                'o2' : 'Logout',
+                'o2l' : '/faculty/logout',
+                'o3' : 'Student List',
+                'o3l' : '/'
+                }
+            elif request.log == 'f':
+                mynavbar = {
+                'fname' : request.session.get('name'),
+                'o1' : 'Works',
+                'o1l' : '/',
+                'o2' : 'Logout',
+                'o2l' : '/faculty/logout',
+                'o3' : 'Student List',
+                'o3l' : '/'
+                }
+            elif request.log == 's':
+                mynavbar = {
+                'fname' : request.session.get('name'),
+                'o1' : 'Works',
+                'o1l' : '/',
+                'o2' : 'Logout',
+                'o2l' : '/faculty/logout',
+                'o3' : 'Student List',
+                'o3l' : '/'
+                }
+            else:
+                mynavbar = {
+                'fname' : 'User',
+                'o1' : 'Works',
+                'o1l' : '/',
+                'o2' : 'Logout',
+                'o2l' : '/faculty/logout',
+                'o3' : 'Student List',
+                'o3l' : '/'
+                }
+        else:
+            mynavbar = {
+                'fname' : 'User',
+                'o1' : 'Works',
+                'o1l' : '/',
+                'o2' : 'Logout',
+                'o2l' : '/faculty/logout',
+                'o3' : 'Student List',
+                'o3l' : '/'
+                }
+
+        mynavbar = {
+                'fname' : request.session.get('name'),
+                'o1' : 'Works',
+                'o1l' : '/',
+                'o2' : 'Logout',
+                'o2l' : '/faculty/logout',
+                'o3' : 'Student List',
+                'o3l' : '/'
+                }
+        
+        if whome == 'teacher':
+            teacherdata =  models.Teacher.objects.filter(essn = id)
+            if len(teacherdata) == 0:
+                return HttpResponse('<h1>Bad Request</h1>')
+            else:
+                return render(request, 'Faculty/GeneralProfile.html',{'mynavbar' : mynavbar,'data' : 1,'teacherdata':teacherdata})
+        elif whome == 'hod':
+            HODdata =  models.HOD.objects.filter(essn = id)
+            if len(HODdata) == 0:
+                return HttpResponse('<h1>Bad Request</h1>')
+            else:
+                return render(request, 'Faculty/GeneralProfile.html',{'mynavbar' : mynavbar,'data' : 2,'HODdata':HODdata})
+       
+        elif whome == 'student':
+            St =  Student.objects.filter(usn = id.upper())
+            if len(St) == 0:
+                return HttpResponse('<h1>Bad Request</h1>')
+            else:
+                return render(request, 'Faculty/GeneralProfile.html',{'mynavbar' : mynavbar,'data':3,'St':St})
+        
+        else:
+            return HttpResponse('<h1> Bad request </h1>') 
+    
