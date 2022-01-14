@@ -21,3 +21,8 @@ class TeachesAdmin(admin.ModelAdmin):
 @admin.register(models.Assignment)
 class TeachesAdmin(admin.ModelAdmin):
     list_display = ['id','subject','assignNumber','subject']
+
+
+@admin.register(models.ClassTeacher)
+class  ClassTeacherAdmin(admin.ModelAdmin):
+    list_display = ['section','teacher','sem']

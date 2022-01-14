@@ -497,3 +497,49 @@ class Genralprofile(View):
         else:
             return HttpResponse('<h1> Bad request </h1>') 
     
+
+
+
+
+# Assign class teacher
+class classTeacher(View):
+    @method_decorator(middleware.verification)
+    def get(self, request):
+        if  request.isverified:
+            if request.log == 'h':
+                classteacher =  models.ClassTeacher.objects.all()
+
+       
+                teachers = models.Teacher.objects.filter(department = request.essn)
+
+                if len(teachers) == 0:
+                    t = 0
+                else:
+                    t = teachers
+                if len(classteacher) == 0:
+                    ct = 0
+                else:
+                    ct = classteacher
+                
+                mynavbar = {
+                'fname' : request.session.get('name'),
+                'o1' : 'Works',
+                'o1l' : '/',
+                'o2' : 'Logout',
+                'o2l' : '/faculty/logout',
+                'o3' : 'Student List',
+                'o3l' : '/'
+                }
+
+                return render(request,'Faculty/classteacher.html',{'mynavbar': mynavbar ,'t':t,'ct':ct})
+
+                
+
+
+            else:
+                return HttpResponse('<h1> You Have Not Permission For This </h1>')
+        else:
+                return HttpResponseRedirect('/faculty/login')
+
+
+        

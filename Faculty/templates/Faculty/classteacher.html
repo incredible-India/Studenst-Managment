@@ -1,0 +1,67 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block title %}
+<title>Class Teacher</title>
+
+{% endblock title %}
+
+
+{% block content %}
+
+{% include 'core/navbar.html' with p=mynavbar %}
+
+<div class="container">
+    <div class="row">
+
+        <div class="col-sm-8 text-center">
+
+            {% if ct == 0 %}
+            <h1 class="mt-5 dark">No Class Teacher Are Assigned Yet !</h1>
+
+            {% else %}
+
+
+
+            {% endif %}
+
+            
+            <hr class="text-dark">
+
+            <form action=" ">
+
+                <div class="row">
+                    <div class="col-sm-8">
+                        <label for="sec">Section</label>
+                        <select name="sec" id="sec" class='form-control'>
+                            <option value="A">A</option>
+                            <option value="B">B</option>
+                            <option value="C">C</option>
+                            <option value="D">D</option>
+                        </select>
+                        <label for="sem">Semester</label>
+                        <select name="sem" id="sem" class='form-control'>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">5</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                        </select>
+                    </div>
+                </div>
+
+            </form>
+      
+        </div>
+
+        <div class="col-sm-4 text-center">
+            <img src="{% static 'img/seal.jfif' %}" alt="" class="img-fluid mt-3 ">
+            <h5 class="text-center element">Sea College Of Engineering And Technology</h5>
+            <hr class="text-primary">
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

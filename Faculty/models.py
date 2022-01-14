@@ -22,6 +22,9 @@ Sem_CHOICES =(
     ("8", "8th sem"),
 
 )
+
+
+
 # Create your models here.
 # base class 
 class Faculty(models.Model):
@@ -58,7 +61,28 @@ class Teaches(models.Model):
     subject = models.CharField(max_length=40,null=False)
 
 
+
+class ClassTeacher(models.Model):
+    # teachers = Teacher.objects.all()
+
+    # if len(teachers) ==0:
+    #     teacherdata = [('None','No teacher Available')]
+    # else:
+    #     teacherdata = []
+    #     for i in teachers:
+    #         teacherdata.append((i.id,i.fname)) 
+
+    teacher = models.ForeignKey(Teacher,on_delete=models.CASCADE)
+    section = models.CharField(max_length=10,choices = Sec_CHOICES,default=None)
+    sem = models.CharField(max_length=10,null=False,choices = Sem_CHOICES,default=None)
+
+
 class Assignment(models.Model):
     subject = models.ForeignKey(Teaches, on_delete=models.CASCADE)
     assignNumber = models.IntegerField()
     dueDate = models.DateField()
+
+
+
+
+
