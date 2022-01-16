@@ -1,0 +1,74 @@
+{% extends 'core/base.html' %}
+
+
+{% block title %}
+<title>Student List</title>
+{% endblock title %}
+
+
+{% block content %}
+
+{% include 'core/navbar.html' with p=mynavbar%}
+
+<div class="container mt-4">
+{% if all == 1 %}
+
+{% if st %}
+
+<div class="container mt-3">
+    <h3 class="text-dark alert-warning text-center">All Student List</h3>
+</div>
+
+<table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">First Name</th>
+        <th scope="col">Last First</th>
+        <th scope="col">Usn</th>
+   
+        <th scope="col">Section</th>
+        <th scope="col">Semester</th>
+        <th scope="col">Department</th>
+        <th scope="col">Class Teacher</th>
+      </tr>
+    </thead>
+    <tbody>
+
+        {% for i in st %}
+        <tr>
+            <th scope="row"><a href="/faculty/student/{{i.usn}}/" style="text-decoration: none">{{i.fname}}</a></th>
+            <td>{{i.lname}}</td>
+            <td>{{i.usn}}</td>
+          
+            {% if i.section == '1' %}
+                <td>A</td>
+
+                {% elif  i.section == '2' %}
+                <td>B</td>
+
+                {% elif i.section == '3'%}
+                <td>C</td>
+
+                {% else %}
+                <td>D</td>
+                {% endif %}
+            <td>{{i.sem}}</td>
+            <td>{{i.department.department}}</td>
+            <td style="text-transform: uppercase">{{i.classTeacher.fname}} {{i.classTeacher.lname}}</td>
+          
+          </tr>
+        
+        {% endfor %}
+     
+     
+    </tbody>
+  </table>
+{% else %}
+
+<h1 class="text-dark alert-warning">No Students Are There..</h1>
+
+{% endif %}
+{% endif %}
+</div>
+
+{% endblock content %}

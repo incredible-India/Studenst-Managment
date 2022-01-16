@@ -1,0 +1,63 @@
+{% extends 'core/base.html' %}
+
+
+{% block title %}
+<title>Teacher List</title>
+{% endblock title %}
+
+
+{% block content %}
+
+{% include 'core/navbar.html' with p=mynavbar%}
+
+<div class="container mt-4">
+{% if all == 1 %}
+
+{% if st %}
+
+<div class="container mt-3">
+    <h3 class="text-dark alert-warning text-center">All Teachers List</h3>
+</div>
+
+<table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">First Name</th>
+        <th scope="col">Last First</th>
+        <th scope="col">Essn</th>
+        <th scope="col">Email</th>
+        <th scope="col">Degree</th>
+        <th scope="col">Department</th>
+      
+      </tr>
+    </thead>
+    <tbody>
+
+        {% for i in st %}
+        <tr>
+            <th scope="row"><a href="/faculty/teacher/{{i.essn}}/" style="text-decoration: none">{{i.fname}}</a></th>
+            <td>{{i.lname}}</td>
+            <td>{{i.essn}}</td>
+          
+         
+            <td>{{i.email}}</td>
+            <td>{{i.degree}}</td>
+            <td>{{i.department.department}}</td>
+ 
+          
+          </tr>
+        
+        {% endfor %}
+     
+     
+    </tbody>
+  </table>
+{% else %}
+
+<h1 class="text-dark alert-warning">No Faculties Are There..</h1>
+
+{% endif %}
+{% endif %}
+</div>
+
+{% endblock content %}

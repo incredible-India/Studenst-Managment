@@ -20,5 +20,6 @@ urlpatterns = [
     path('student/approve/student/',views.studentAllApproval.as_view(),name='stapprovalall'),
     path('<str:whome>/<str:id>/',views.Genralprofile.as_view(),name='stapprovalall'),
     path('assign/classteacher',views.classTeacher.as_view(),name='classteacher'),
-    path('student/list/',views.stlist.as_view(),name='classteacher'),
+    path('allstudent/list/data',views.studentList.as_view(),name='allStudentsinfo'),
+    path('allteachers/list/data',views.teacherList.as_view(),name='allTeacherssinfo'),
 ]

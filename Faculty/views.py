@@ -567,5 +567,50 @@ class classTeacher(View):
 
 
 # for the list of student hod view
+class studentList(View):
+    @method_decorator(middleware.verification)
+    def get(self, request):
 
+        if  request.isverified:
+ 
+            st = Student.objects.all()
+            mynavbar = {
+                'fname' : request.session.get('name'),
+                'o1' : 'Works',
+                'o1l' : '/',
+                'o2' : 'Logout',
+                'o2l' : '/faculty/logout',
+                'o3' : 'Student List',
+                'o3l' : '/'
+                }
+            return render(request,'Faculty/stlist.html',{'mynavbar':mynavbar,'st':st,'all':1})
+
+            
+        else:
+         
+            return HttpResponseRedirect('/faculty/login')
+
+class teacherList(View):
+    @method_decorator(middleware.verification)
+    def get(self, request):
+
+        if  request.isverified:
+ 
+            st = models.Teacher.objects.all()
+            mynavbar = {
+                'fname' : request.session.get('name'),
+                'o1' : 'Works',
+                'o1l' : '/',
+                'o2' : 'Logout',
+                'o2l' : '/faculty/logout',
+                'o3' : 'Student List',
+                'o3l' : '/'
+                }
+            return render(request,'Faculty/teaclist.html',{'mynavbar':mynavbar,'st':st,'all':1})
+
+            
+        else:
+         
+            return HttpResponseRedirect('/faculty/login')
+        
         
