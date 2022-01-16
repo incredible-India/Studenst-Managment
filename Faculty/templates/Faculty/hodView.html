@@ -10,6 +10,8 @@
 <link rel="stylesheet" href="{% static 'Faculty/css/teacherview.css' %}">
 <link rel="stylesheet" href="{% static 'Faculty/css/hodview.css' %}">
 
+
+
 {% endblock link %}
 
 {% block content %}
@@ -60,12 +62,24 @@
                         <div class="col-sm-6">
                             <div class="card" style="width: 18rem;">
                                 <div class="card-header bg-info">
-                                 <b>Featured</b> 
+                                 <b>Class Works</b> 
                                 </div>
                                 <ul class="list-group list-group-flush">
-                                  <li class="list-group-item">Cras justo odio</li>
-                                  <li class="list-group-item">Dapibus ac facilisis in</li>
-                                  <li class="list-group-item">Vestibulum at eros</li>
+                                    <a href="{% url 'assignTimetable' %}">
+                                        <li class="list-group-item bg-light">
+                                     Time Table
+                                        </li>
+                                      </a>
+                                      <a href="{% url 'classteacher' %}">
+                                        <li class="list-group-item bg-light">
+                                      Class teacher
+                                        </li>
+                                      </a>
+                                      <a href="{% url 'classteacher' %}">
+                                        <li class="list-group-item bg-light">
+                                      Class teacher
+                                        </li>
+                                      </a>
                                 </ul>
                               </div>
                         </div>
@@ -82,7 +96,7 @@
                                   </li>
                                 </a>
                                 <a href="{% url 'allTeacherssinfo' %}">
-                                    <li class="list-group-item bg-danger">
+                                    <li class="list-group-item">
                                    Teachers List
                                     </li>
                                   </a>

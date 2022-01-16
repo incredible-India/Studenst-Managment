@@ -1,0 +1,99 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block title %}
+<title>Time Table</title>
+{% endblock title %}
+
+{% block content %}
+
+{% include 'core/navbar.html' with p=mynavbar%}
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-sm-8">
+            {% if timetable %}
+            <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th scope="col">Subject</th>
+                    <th scope="col">Section</th>
+                    <th scope="col">Sem</th>
+                    <th scope="col">Teacher</th>
+                  </tr>
+                </thead>
+                <tbody>
+            {% for i in timetable %}
+            <tr>
+                <th scope="row">{{i.subject}}</th>
+                <td>{{i.section}}</td>
+                <td>{{i.sem}}</td>
+                <td><a href="/faculty/teacher/{{i.teacher.essn}}/" style="text-decoration: none"> {{i.teacher.fname}} {{i.teacher.lname}}</a></td>
+           
+              </tr>
+            
+            {% endfor %}
+        </tbody>
+    </table>
+            {% else %}
+            <h1 class="alert-warning text-center">No Time Table For This Semester</h1>
+            {% endif %}
+               
+        </div>
+        <div class="col-sm-4 text-center">
+
+            <div class="container">
+                <h5 class="text-dark text-center alert-info">Create Time Table</h5>
+                <hr class="text-info">
+                <form action="" method="post">
+                    {% csrf_token %}
+                    <label for="sem">Semester</label>
+                    <select name="sem" id="sem" class="form-control sem">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                    </select>
+                    <label for="sec">Section</label>
+                    <select name="sec" id="sec" class="form-control">
+                        <option value="A">A</option>
+                        <option value="B">B</option>
+                        <option value="C">C</option>
+                        <option value="D">D</option>
+                    </select>
+
+                    <label for="sub">Subject</label>
+                    <select name="sub" id="sub" class="form-control subjects">
+               
+                    </select>
+
+                    <label for="teacher">Teacher</label>
+                    <select name="teacher" id="teacher" class="form-control">
+                        {% if t %}
+                        {% for i in t %}
+                        <option value="{{i.id}}">{{i.fname}} {{i.lname}} ({{i.department.department}}) </option>
+                        {% endfor %}
+                        {% endif %}
+                    </select>
+
+                    <input type="submit" value="Submit" class="btn btn-primary mt-3">
+
+                </form>
+
+            </div>
+
+            <img src="{% static 'img/seal.jfif' %}" alt="" class="img-fluid mt-3 ">
+            <h5 class="text-center element">Sea College Of Engineering And Technology</h5>
+            <hr class="text-primary">
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
+
+{% block script %}
+<script src="{% static 'Faculty/js/timetable.js' %}"></script>
+{% endblock script %}

@@ -22,4 +22,5 @@ urlpatterns = [
     path('assign/classteacher',views.classTeacher.as_view(),name='classteacher'),
     path('allstudent/list/data',views.studentList.as_view(),name='allStudentsinfo'),
     path('allteachers/list/data',views.teacherList.as_view(),name='allTeacherssinfo'),
+    path('timetable/assign/teacher/',views.timetable.as_view(),name='assignTimetable'),
 ]

@@ -40,3 +40,7 @@
     border-radius: 50%;
    }
   }
+
+ul li a{
+    text-decoration: none;
+}

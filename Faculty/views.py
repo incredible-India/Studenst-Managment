@@ -613,4 +613,47 @@ class teacherList(View):
          
             return HttpResponseRedirect('/faculty/login')
         
-        
+
+
+# time table assign 
+class timetable(View):
+    @method_decorator(middleware.verification)
+    def get(self, request):
+        if  request.isverified:
+            if request.log == 'h':
+                t = models.Teacher.objects.all()
+                timeTable = models.Teaches.objects.filter(sem = 5)
+
+                mynavbar = {
+                'fname' : request.session.get('name'),
+                'o1' : 'Works',
+                'o1l' : '/',
+                'o2' : 'Logout',
+                'o2l' : '/faculty/logout',
+                'o3' : 'Student List',
+                'o3l' : '/'
+                }
+                return render(request, 'Faculty/timetable.html',{'mynavbar': mynavbar,'t' :t ,'timetable': timeTable})
+            else:
+                return HttpResponse('<h1>You Have Not Permission For That..</h1>')
+        else:
+         
+            return HttpResponseRedirect('/faculty/login')
+    @method_decorator(middleware.verification)
+    def post(self, request):
+        if  request.isverified:
+            sem = request.POST.get('sem')
+            sec = request.POST.get('sec')
+            sub = request.POST.get('sub')
+            teacher = request.POST.get('teacher')
+
+            info = models.Teaches.objects.filter(Q(sem = sem) & Q(section= sec) & Q(subject= sub))
+  
+            if len(info) != 1:
+                models.Teaches.objects.create(sem = sem,section = sec,teacher = models.Teacher.objects.get(id = teacher),subject = sub).save()
+            else:
+                info.update(teacher = models.Teacher.objects.get(id = teacher))
+            return HttpResponseRedirect('/faculty/timetable/assign/teacher/')
+        else:
+            return HttpResponse('<h1>You Have Not Permission For That..</h1>')
+   

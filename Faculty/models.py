@@ -56,9 +56,9 @@ class Teacher(Faculty):
 
 class Teaches(models.Model):
     teacher = models.ForeignKey(Teacher,on_delete=models.CASCADE)
-    section = models.CharField(max_length=10,choices = Sec_CHOICES,default=None)
-    sem = models.CharField(max_length=10,null=False,choices = Sem_CHOICES,default=None)
-    subject = models.CharField(max_length=40,null=False)
+    section = models.CharField(max_length=10,default=None)
+    sem = models.CharField(max_length=10,null=False,default=None)
+    subject = models.CharField(max_length=100,null=False)
 
 
 
