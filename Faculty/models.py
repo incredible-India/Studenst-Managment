@@ -73,8 +73,8 @@ class ClassTeacher(models.Model):
     #         teacherdata.append((i.id,i.fname)) 
 
     teacher = models.ForeignKey(Teacher,on_delete=models.CASCADE)
-    section = models.CharField(max_length=10,choices = Sec_CHOICES,default=None)
-    sem = models.CharField(max_length=10,null=False,choices = Sem_CHOICES,default=None)
+    section = models.CharField(max_length=10,default=None)
+    sem = models.CharField(max_length=10,null=False,default=None)
 
 
 class Assignment(models.Model):

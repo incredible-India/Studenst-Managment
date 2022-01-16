@@ -20,15 +20,37 @@
 
             {% else %}
 
+            <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th scope="col">Semester</th>
+                    <th scope="col">Section</th>
+                    <th scope="col">Teacher</th>
+               
+                  </tr>
+                </thead>
+                <tbody>
+                 
 
+                    {% for i in ct %}
+                    <tr>
+                        <th scope="row">{{i.sem}}</th>
+                        <td>{{i.section}}</td>
+                        <td style=" text-transform: uppercase;">{{i.teacher.fname}} {{i.teacher.lname}}</td>
+                      
+                      </tr>
+              {% endfor %}
+
+                </tbody>
+              </table>
 
             {% endif %}
 
             
             <hr class="text-dark">
 
-            <form action=" ">
-
+            <form action="" method="post">
+                {% csrf_token %}
                 <div class="row">
                     <div class="col-sm-8">
                         <label for="sec">Section</label>
@@ -42,16 +64,28 @@
                         <select name="sem" id="sem" class='form-control'>
                             <option value="1">1</option>
                             <option value="2">2</option>
-                            <option value="3">5</option>
+                            <option value="3">3</option>
                             <option value="4">4</option>
                             <option value="5">5</option>
                             <option value="6">6</option>
                             <option value="7">7</option>
                             <option value="8">8</option>
                         </select>
+                        <label for="cls">Class Teacher</label>
+                        <select name="ct" id="cls" class="form-control">
+                            {% if t != 0 %}
+                            
+                            {% for i  in t %}
+                            
+                            <option value="{{i.id}}">{{i.fname}} {{i.lname}}</option>
+                            {% endfor %}
+                            
+                            {% endif %}
+                        </select>
                     </div>
                 </div>
-
+                <hr>
+                <input type="submit" value="Assigned" class="btn btn-primary">
             </form>
       
         </div>

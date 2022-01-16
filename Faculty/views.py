@@ -509,8 +509,10 @@ class classTeacher(View):
             if request.log == 'h':
                 classteacher =  models.ClassTeacher.objects.all()
 
-       
-                teachers = models.Teacher.objects.filter(department = request.essn)
+                Hod = models.HOD.objects.get(essn = request.essn)
+                teachers = models.Teacher.objects.filter(department = Hod.id)
+
+         
 
                 if len(teachers) == 0:
                     t = 0
@@ -540,6 +542,30 @@ class classTeacher(View):
                 return HttpResponse('<h1> You Have Not Permission For This </h1>')
         else:
                 return HttpResponseRedirect('/faculty/login')
+    
+    @method_decorator(middleware.verification)
+    def post(self, request):
+        if  request.isverified:
+            if request.log == 'h':
+                sec  = request.POST.get('sec')
+                sem  = request.POST.get('sem')
+                ct  = request.POST.get('ct')
+                
+                info = models.ClassTeacher.objects.filter(Q(sem = sem) & Q(section= sec))
+                # models.ClassTeacher.objects.update_or_create(section = sec ,sem = sem,teacher = models.Teacher.objects.get(id = ct))
+                if len(info) != 1:
+                    models.ClassTeacher.objects.create(sem = sem,section = sec,teacher = models.Teacher.objects.get(id = ct)).save()
+                else:
+                    info.update(teacher = models.Teacher.objects.get(id = ct))
+                return HttpResponseRedirect('/faculty/assign/classteacher')
+            else:
+                return HttpResponse('<h1> You Have Not Permission For This </h1>')
+        else:
+            return HttpResponseRedirect('/faculty/login')
 
+
+
+
+# for the list of student hod view
 
         
