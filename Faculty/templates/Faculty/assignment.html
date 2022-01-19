@@ -1,0 +1,52 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block title %}
+<title>Assignment</title>
+
+{% endblock title %}
+
+{% block content %}
+{% include 'core/navbar.html' with p=mynavbar %}
+
+<div class="container mt-4">
+    <div class="row">
+
+        <div class="col-sm-8">
+            {% if assignment %}
+        
+            {% else %}
+    
+            <h1 class="text-center alert-dark text-light mt-2" style="padding:10px">No Assignment Given For This Subject</h1> 
+            
+            {% endif %}
+        </div>
+        <div class="col-sm-4 text-center">
+       
+            <div class="container mt-2">
+                <form action="" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                   
+                    {{form}}
+
+                    <label for="sub">Subject</label>
+                    <select name="sub" id="sub" class="form-control">
+
+                        <option value="{{sub}}" selected>{{sub}}</option>
+                    </select>
+
+
+                    <input type="submit" value="Give Assignment" class='mt-3 btn btn-success btn-lg'>
+                </form>
+            </div>
+            <img src="{% static 'img/seal.jfif' %}" alt="" class="img-fluid mt-3 ">
+            <h5 class="text-center element">Sea College Of Engineering And Technology</h5>
+            <hr class="text-primary">
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
+
+{% block script %}
+<script src="{% static 'Faculty/js/assignment.js' %}"></script>
+{% endblock script %}

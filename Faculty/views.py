@@ -11,6 +11,7 @@ from django.utils.decorators import method_decorator
 from Student_Management import middleware
 from django.db.models import Q 
 from Student.models import Student 
+from django.core.files.storage import FileSystemStorage
 # Create your views here.
 
 class NewTeacher(View):
@@ -152,6 +153,8 @@ class teacherProfile(View):
         if request.isverified:
             if request.session['log'] == 'f':
                 teacherdata = models.Teacher.objects.filter(essn =  request.session['essn'])
+                t = models.Teacher.objects.get(essn  = request.session['essn'])
+                subjects = models.Teaches.objects.filter(teacher = t.id)
                 if len(teacherdata) == 0:
                     return HttpResponse(" <h1> Bad request error not Exist </h1>")
                 else:
@@ -166,7 +169,7 @@ class teacherProfile(View):
 
                 }
            
-                return render(request, 'Faculty/teacherView.html',{'mynavbar': mynavbar ,'teacherdata':teacherdata})
+                return render(request, 'Faculty/teacherView.html',{'mynavbar': mynavbar ,'teacherdata':teacherdata,'subject':subjects})
                 
 
                     
@@ -476,6 +479,7 @@ class Genralprofile(View):
         
         if whome == 'teacher':
             teacherdata =  models.Teacher.objects.filter(essn = id)
+          
             if len(teacherdata) == 0:
                 return HttpResponse('<h1>Bad Request</h1>')
             else:
@@ -656,4 +660,51 @@ class timetable(View):
             return HttpResponseRedirect('/faculty/timetable/assign/teacher/')
         else:
             return HttpResponse('<h1>You Have Not Permission For That..</h1>')
-   
+
+
+
+# for the assignment Work
+def handle_uploaded_file(f):  
+    with open('assignment/'+f, 'wb+') as destination:  
+        for chunk in f.chunks():  
+            destination.write(chunk) 
+class assignment(View):
+
+    def get(self, request,sub,sem,sec,id):
+      
+    
+        checkAuth = checkUserLogin(request)
+        if checkAuth[0] == True:
+            if checkAuth[1] == 'f': #agar hod ke liye bhi permission dena hai to yeha or lga ke == 'h' bhi likh dena
+                mynavbar ={
+                'fname' : request.session.get('name'),
+                'o1' : 'Works',
+                'o1l' : '/',
+                'o2' : 'Logout',
+                'o2l' : '/faculty/logout',
+                'o3' : 'Student List',
+                'o3l' : '/'
+                }
+                mydocs = forms.AssignmentForm(initial = {'sem' : sem,'section' : sec})
+                myAssignment = models.Teaches.objects.filter(id = id)
+                if len(myAssignment) == 0:
+                    return HttpResponse('<h1> You Can Not Give The Assignment For This Subject </h1>')
+                else :
+
+
+                    return render(request,'Faculty/assignment.html',{'mynavbar':mynavbar,'sec' :sec,'sem':sem,'form' : mydocs,'sub':sub})
+            else:
+                return HttpResponse('<h1> You Have Not permission For This..</h1>')
+
+        else:
+            return HttpResponseRedirect('/faculty/login')
+    
+    def post(self, request,sub,sem,sec,id):
+        assignmentNumber = request.POST.get('assno')
+        section = request.POST.get('sec')
+        semester = request.POST.get('sem')
+        dueDate = request.POST.get('duedate')
+       
+  
+
+        return HttpResponse(f'{assignmentNumber} {section} {semester} {dueDate}')

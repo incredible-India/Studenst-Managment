@@ -52,3 +52,45 @@ class TeacherForm(forms.ModelForm):
        
            
         }
+
+
+
+class AssignmentForm(forms.ModelForm):
+    # department = forms.ChoiceField(choices=CHOICES)
+    class Meta:
+        model =  models.Assignment
+        fields = '__all__'
+        exclude = ['subject']
+        labels = {
+            'assignNumber' : 'Assignment Number',
+            'section' : 'Section',
+            'sem' : 'Semester',
+            'assignment' :'Assignment'
+            ,'dueDate' : 'Due Date'
+      
+            
+        }
+        widgets = {
+            'assignNumber' : forms.Select(
+               attrs ={ 'class' : 'form-control',}
+            ),
+                'section' : forms.Select(
+               attrs ={ 'class' : 'form-control',}
+            ),
+                'sem' : forms.Select(
+               attrs ={ 'class' : 'form-control',}
+            ),
+                'assignment' : forms.FileInput(
+               attrs ={ 'class' : 'form-control',}
+            ),
+             
+             
+                'dueDate' : forms.DateInput(
+               attrs ={ 'class' : 'form-control',}
+            ),
+             
+             
+               
+       
+           
+        }

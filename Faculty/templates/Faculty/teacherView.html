@@ -56,7 +56,40 @@
 
 {% if i.isverified %}
 
-do sokme
+
+{% if subject %}
+<h1 class="text-dark alert-info text-center">Your Subjects</h1>
+<table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">Subject</th>
+        <th scope="col">Section</th>
+        <th scope="col">Sem</th>
+        <th scope="col">Assignment</th>
+      
+      </tr>
+    </thead>
+    <tbody>
+     
+{% for i in subject %}
+<tr>
+    <th scope="row">{{i.subject}}</th>
+    <td>{{i.section}}</td>
+    <td>{{i.sem}}</td>
+    <td>
+        <a href="/faculty/classwork/assignment/{{i.subject}}/{{i.section}}/{{i.sem}}/{{i.id}}/" class="btn btn-success">Assignments</a>
+    </td>
+
+
+  </tr>
+
+
+{% endfor %}
+</tbody>
+</table>
+{% else %}
+<h1 class="text-dark alert-info text-center">No Subjects Assigned Yet</h1>
+{% endif %}
 
 {% else %}
 <h4 class="text dark alert-warning">

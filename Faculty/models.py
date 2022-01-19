@@ -76,10 +76,13 @@ class ClassTeacher(models.Model):
     section = models.CharField(max_length=10,default=None)
     sem = models.CharField(max_length=10,null=False,default=None)
 
-
+ 
 class Assignment(models.Model):
     subject = models.ForeignKey(Teaches, on_delete=models.CASCADE)
     assignNumber = models.IntegerField()
+    section = models.CharField(max_length=10,default=None)
+    sem = models.CharField(max_length=10,default=None)
+    assignment = models.FileField(upload_to = 'assignments/',default=None)
     dueDate = models.DateField()
 
 
