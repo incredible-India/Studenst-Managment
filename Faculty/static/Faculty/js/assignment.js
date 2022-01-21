@@ -13,3 +13,21 @@ assignmentNumber.innerHTML = `
 let typeDate = document.getElementById('id_dueDate')
 
 typeDate.setAttribute('type' , 'date')
+
+
+let semester =  document.getElementsByClassName('semester')[0]
+let sec = document.getElementsByClassName('sec')[0]
+
+
+let mysection = document.getElementById('id_section')
+let mysemester = document.getElementById('id_sem')
+
+mysection.innerHTML = `
+<option value="${sec.innerText}" selected>${sec.innerText}</option>
+
+`
+
+mysemester.innerHTML = `
+<option value="${semester.innerText}" selected>${semester.innerText}</option>
+
+`

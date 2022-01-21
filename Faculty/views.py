@@ -12,6 +12,7 @@ from Student_Management import middleware
 from django.db.models import Q 
 from Student.models import Student 
 from django.core.files.storage import FileSystemStorage
+from django.urls import reverse
 # Create your views here.
 
 class NewTeacher(View):
@@ -670,7 +671,7 @@ def handle_uploaded_file(f):
             destination.write(chunk) 
 class assignment(View):
 
-    def get(self, request,sub,sem,sec,id):
+    def get(self, request,sub,sec,sem,id):
       
     
         checkAuth = checkUserLogin(request)
@@ -685,26 +686,59 @@ class assignment(View):
                 'o3' : 'Student List',
                 'o3l' : '/'
                 }
-                mydocs = forms.AssignmentForm(initial = {'sem' : sem,'section' : sec})
+    
+                mydocs = forms.AssignmentForm()
                 myAssignment = models.Teaches.objects.filter(id = id)
                 if len(myAssignment) == 0:
                     return HttpResponse('<h1> You Can Not Give The Assignment For This Subject </h1>')
                 else :
 
-
-                    return render(request,'Faculty/assignment.html',{'mynavbar':mynavbar,'sec' :sec,'sem':sem,'form' : mydocs,'sub':sub})
+                    assignments = models.Assignment.objects.filter(Q(sem =sem) & Q(section = sec))
+                    return render(request,'Faculty/assignment.html',{'mynavbar':mynavbar,'sec' :sec,'sem':sem,'form' : mydocs,'sub':sub,'cid' : id,'assignment' : assignments})
             else:
                 return HttpResponse('<h1> You Have Not permission For This..</h1>')
 
         else:
             return HttpResponseRedirect('/faculty/login')
     
-    def post(self, request,sub,sem,sec,id):
-        assignmentNumber = request.POST.get('assno')
-        section = request.POST.get('sec')
-        semester = request.POST.get('sem')
-        dueDate = request.POST.get('duedate')
+
+      
+
+
+def assignFormData(request,id):
+    if request.method == 'POST':
+        mydocs = forms.AssignmentForm(request.POST,request.FILES)
+        if mydocs.is_valid():
+            assignNumber = mydocs.cleaned_data['assignNumber']
+            section = mydocs.cleaned_data['section']
+            sem = mydocs.cleaned_data['sem']
+            dueDate = mydocs.cleaned_data['dueDate']
+            subject = request.POST.get('sub')
+            assignment = request.FILES['assignment']
+
+          
+       
+      
+            info = models.Assignment.objects.filter(Q(sem = sem) & Q(section= section) & Q(assignNumber = assignNumber))
+
+            
+            if len(info) != 1:
+                models.Assignment.objects.create(sem = sem,section = section,subject = models.Teaches.objects.get(id  = id),assignNumber = assignNumber,dueDate = dueDate,assignment = assignment).save()
+                messages.info(request,f'Assignment Number {assignNumber} Added Succesfully')
+            else:
+                info.update(dueDate = dueDate,assignment = assignment,subject = models.Teaches.objects.get(id =id))
+                messages.info(request,f'Assignment Number {assignNumber} Updated Succesfully')
+
+        
+        
+      
+        return HttpResponseRedirect(f'/faculty/classwork/assignment/{subject}/{section}/{sem}/{id}/')
+
+  
+        
+
+
        
   
 
-        return HttpResponse(f'{assignmentNumber} {section} {semester} {dueDate}')
+      

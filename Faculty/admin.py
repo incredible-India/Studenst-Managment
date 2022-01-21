@@ -20,7 +20,7 @@ class TeachesAdmin(admin.ModelAdmin):
 
 @admin.register(models.Assignment)
 class TeachesAdmin(admin.ModelAdmin):
-    list_display = ['id','subject','assignNumber','subject']
+    list_display = ['id','subject','assignNumber','sem','section','assignment','dueDate']
 
 
 @admin.register(models.ClassTeacher)

@@ -81,7 +81,7 @@ class AssignmentForm(forms.ModelForm):
                attrs ={ 'class' : 'form-control',}
             ),
                 'assignment' : forms.FileInput(
-               attrs ={ 'class' : 'form-control',}
+               attrs ={ 'class' : 'form-control', 'accept':"application/pdf"}
             ),
              
              

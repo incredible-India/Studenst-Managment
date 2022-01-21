@@ -82,7 +82,7 @@ class Assignment(models.Model):
     assignNumber = models.IntegerField()
     section = models.CharField(max_length=10,default=None)
     sem = models.CharField(max_length=10,default=None)
-    assignment = models.FileField(upload_to = 'assignments/',default=None)
+    assignment = models.FileField(upload_to = 'assignments/pdf/')
     dueDate = models.DateField()
 
 

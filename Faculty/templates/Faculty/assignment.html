@@ -8,22 +8,76 @@
 {% block content %}
 {% include 'core/navbar.html' with p=mynavbar %}
 
+
+{% if messages %}
+{% for k in messages %} 
+
+<div class="alert alert-success alert-dismissible fade show mt-2" role="alert">
+    <strong>{{k}}</strong> 
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+
+
+{% endfor %}
+{% endif %}
+
 <div class="container mt-4">
-    <div class="row">
+    <div class="row"> 
 
         <div class="col-sm-8">
+            <div class="container">
+                <h1 class="text-dark text-center alert-info" style="padding : 10px;">
+                    <span class="sec">{{sec}}</span>-
+                    <span class="semester">{{sem}}</span>-
+                 
+                    <span class="sub text-info">{{sub}}</span>
+                </h1>
+            </div>
             {% if assignment %}
-        
+            <table class="table table-striped">
+                <thead>
+                  <tr>
+              
+                    <th scope="col">Assignment Number</th>
+                    <th scope="col">Subject</th>
+                    <th scope="col">Semester</th>
+                    <th scope="col">Section</th>
+                    <th scope="col">Given By</th>
+                    <th scope="col">Due Date</th>
+                    <th scope="col">Assignment</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    {% for i in assignment %}
+                  <tr>
+                    <th scope="row">{{i.assignNumber}}</th>
+                    <td>{{i.subject.subject}}</td>
+                    <td>{{i.sem}}</td>
+                    <td>{{i.section}}</td>
+                    <td><a href="/faculty/teacher/{{i.subject.teacher.essn}}/">{{i.subject.teacher.fname}} {{i.subject.teacher.lname}}</a></td>
+                    <td>{{i.dueDate}}</td>
+                    <td><a href="{{i.assignment.url}}" class="btn btn-primary btn-sm">{{i.assignment.url}}</a></td>
+            
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+
+         
             {% else %}
     
             <h1 class="text-center alert-dark text-light mt-2" style="padding:10px">No Assignment Given For This Subject</h1> 
             
             {% endif %}
+
+            <div class="container mt-4">
+                <a href="/faculty/teacher/profile/" class="btn btn-success">Go Back</a>
+            </div>
         </div>
         <div class="col-sm-4 text-center">
        
             <div class="container mt-2">
-                <form action="" method="post" enctype="multipart/form-data">
+                <form action="{% url 'submitDATA' cid %}" method="post" enctype="multipart/form-data">
                     {% csrf_token %}
                    
                     {{form}}
