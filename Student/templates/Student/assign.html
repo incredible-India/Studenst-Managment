@@ -1,0 +1,82 @@
+{% extends 'core/base.html' %}
+
+{% load static %}
+
+{% block title %}
+<title>Assignments</title>
+{% endblock title %}
+
+
+{% block content %}
+{% include 'core/navbar.html' with p=mynavbar %}
+
+<div class="container mt-3 alert-success text-dark text-center display-5" style='padding:5px;'>
+    {{sub}}
+</div>
+
+<div class="container mt-3">
+    <div class="row">
+        <div class="col-sm-8">
+            {% if info %}
+       
+            <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th scope="col">Assignment Number</th>
+                    <th scope="col">Semester</th>
+                    <th scope="col">Section</th>
+                    <th scope="col">Subject</th>
+                    <th scope="col">Assignment</th>
+                    <th scope="col">Due Date</th>
+                    <th scope="col">Your Submission</th>
+                  </tr>
+                </thead>
+                <tbody>
+                
+                    {% for i in info %}
+                   
+                   {% if i.subject.subject == sub %}
+                   <tr>
+                    <th scope="row">{{i.assignNumber}}</th>
+              
+                    <td>{{i.sem}}</td>
+                    <td>{{i.section}}</td>
+                    <td>{{i.subject.subject}}</td>
+                    <td><a href="{{i.assignment.url}}" class="btn btn-primary btn-sm">Check Assignment</a></td>
+                    <td>{{i.dueDate}}</td>
+                 
+                    <td><i class="fas fa-times-circle" style='color:red;' title='Not Subitted Yet'></i></td>
+                    
+                  </tr>
+                   
+                   {% endif %}
+                    {% endfor %}
+                 
+                </tbody>
+              </table>
+
+
+            {% else %}
+            <h2 class="text-light alert-dark text-center">No Assignment Provided Yet</h2>
+            {% endif %}
+        </div>
+
+        <div class="col-sm-4 text-center">
+            <h5 class="text-dark alert-info">Semester :{{sem}} - Section : {{sec}}</h5>
+            <img src="{% static 'img/seal.jfif' %}" alt="" class="img-fluid mt-3 ">
+            <h5 class="text-center element">Sea College Of Engineering And Technology</h5>
+            <hr class="text-primary">
+          {% if info %}
+     
+          <form action="/student/submit/assign/{{info.id}}" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+            {{form}}
+        
+            <input type="submit" value="Submit" class="btn btn-success mt-3">
+        </form>
+          {% endif %}
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

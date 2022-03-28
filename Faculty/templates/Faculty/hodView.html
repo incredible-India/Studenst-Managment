@@ -25,7 +25,8 @@
         {% for i in hoddata %}
      
             <div class="propic">
-                <img src="{% static i.fimg %}" alt="img" class="img-fluid hod" height="300px" width="300px">
+                {% comment %} <img src="{% static i.fimg %}" alt="img" class="img-fluid hod" height="300px" width="300px"> {% endcomment %}
+                <img src="{{i.fimg.url}}" alt="img" class="img-fluid hod" height="300px" width="300px">
             </div>
 
             <h1 class="text-light text-center " style="bottom:55px; position:relative;">{{i.department}}</h1>

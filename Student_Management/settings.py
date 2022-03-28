@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'core',
     'Faculty',
     'Student',
+    'django_extensions',
 ]
 
 MIDDLEWARE = [
@@ -125,3 +126,8 @@ STATICFILES_DIRS = [STATIC_DIR]
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+GRAPH_MODELS = {
+    'all_applications':True,
+    'group_models':True,
+}

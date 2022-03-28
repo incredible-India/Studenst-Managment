@@ -1,5 +1,5 @@
 from django import forms
-from .models import Student
+from .models import Student,sAssignment
 
 
 class StudentForm(forms.ModelForm):
@@ -74,3 +74,17 @@ class StudentForm(forms.ModelForm):
         }
 
 
+class SAssign(forms.ModelForm):
+    # department = forms.ChoiceField(choices=CHOICES)
+    class Meta:
+        model =  sAssignment
+        fields = ['assignment','anumber']
+        labels = {'assignment': 'Uploas Assignment','anumber' : 'Assignment Number'}
+        widgets = {
+            'assignment' : forms.FileInput(
+               attrs ={ 'class' : 'form-control', 'accept' : '.pdf',}
+            ),
+             'anumber' : forms.NumberInput(
+               attrs ={ 'class' : 'form-control',}
+            ),
+        }

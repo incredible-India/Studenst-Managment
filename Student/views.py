@@ -1,13 +1,15 @@
 from django.shortcuts import render,HttpResponseRedirect,HttpResponse
 from django.views import View
-from .forms import StudentForm
+from .forms import StudentForm,SAssign
 from django.contrib import messages
 from .validation import checkStudentFrom
-from .models import Student
+from .models import Student,sAssignment
 from Faculty import models
+from django.db.models import Q 
 # Create your views here.
 from django.utils.decorators import method_decorator
 from Student_Management.middleware import verification 
+from django.utils import timezone
 class index(View):
     @method_decorator(verification)
     def get(self, request):
@@ -71,6 +73,7 @@ class index(View):
 
                 Student.objects.create(department= models.HOD.objects.get(department=department),fname=fname,lname=lname,email=email,password=password,sem = sem,simg=request.FILES['simg'],usn=usn.upper(),cycle=cycle,mobile=mobile,section = section
                 ).save()
+               
                 request.session['name'] = fname
                 request.session['essn'] = str(usn)
                 request.session['log'] = 's'
@@ -164,6 +167,7 @@ class StudentProfile(View):
         if request.isverified:
             if request.log == 's':
                 st = Student.objects.filter(usn = request.session.get('essn').upper())
+                print(st.query)
                 if len(st) == 0:
                     return HttpResponse(" <h1> Bad request error not Exist </h1>")
                 elif len(st) > 1:
@@ -179,9 +183,83 @@ class StudentProfile(View):
                 'o3l' : '/'
 
                 }
-           
-                return render(request, 'Student/sprofile.html',{'mynavbar': mynavbar ,'st':st})
+                for i in st:
+                    sem = i.sem 
+                    section = i.section
+                if section == '1':
+                    sec='A'
+                elif section == '2':
+                    sec='B'
+                elif section == '3':
+                    sec='C'
+                else:
+                    sec='D'
+                classTeacherinfo = models.ClassTeacher.objects.filter(Q(sem = sem) & Q(section = sec))
+                subjects = models.Teaches.objects.filter(Q(sem = sem) & Q(section = sec))
+
+             
+               
+                return render(request, 'Student/sprofile.html',{'mynavbar': mynavbar ,'st':st,'ct' : classTeacherinfo,'sub':subjects})
             else:
                 return HttpResponseRedirect('/')
         else:
             return HttpResponseRedirect('/student/login')
+
+
+@verification
+def Auth(request):
+    if request.isverified:
+        if request.log == 's':
+            return True
+        else:
+            return False
+    else:
+        return False
+
+
+class CheckAssignment(View):
+    def get(self, request,sem,sec,id,sub,tid):
+       
+        AssignForm = SAssign()
+         
+        checkAuth = Auth(request)
+
+        if checkAuth :
+            assignments = models.Assignment.objects.filter(Q(sem = sem) & Q(section = sec))
+
+            if len(assignments) == 0:
+                info  = False
+            else:
+                info = assignments
+                
+
+
+            mynavbar = {
+                'fname' : request.session.get('name'),
+                'o1' : 'Works',
+                'o1l' : '/',
+                'o2' : 'Logout',
+                'o2l' : '/student/logout',
+                'o3' : 'Student List',
+                'o3l' : '/'
+
+                }
+            
+            return render(request, 'Student/assign.html',{'mynavbar': mynavbar,'sub' :sub ,'sec' :sec ,'sem' :sem,'info':info,'form':AssignForm ,})
+
+
+
+        else:
+            return HttpResponseRedirect('/student/login')
+
+
+def submitAssignment(request,id):
+     AssignForm = SAssign(request.POST,request.FILES)
+     if AssignForm.is_valid():
+         print(AssignForm.cleaned_data)
+     else:
+         print(AssignForm.cleaned_data)
+     import datetime
+     sAssignment.objects.create(anumber = AssignForm.cleaned_data['anumber'],dueDate = datetime.datetime.now(),assignment=request.FILES['assignment'],subject = models.Assignment.get(id= id)).save()
+    
+     return HttpResponseRedirect('/student/profile/')

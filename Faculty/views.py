@@ -193,6 +193,7 @@ class HodProfile(View):
              
                 teaherAproval = models.Teacher.objects.filter(Q(isverified =False) & Q(department = hoddepart.id))
                 StudentAproval = Student.objects.filter(Q(isverified =False) & Q(department = hoddepart.id))
+                print(hoddata.query)
 
            
 
@@ -362,6 +363,7 @@ class StudentAprovalIndividual(View):
 
                     if hods.department == students.department.department:
                         updateinfo = Student.objects.filter(usn = id.upper()).update(isverified = True)
+                        
                         return HttpResponseRedirect('/faculty/hod/student/aproval/')
                     else:
                              return HttpResponse("<h1> Unauthorised Access </h1>")

@@ -1,5 +1,7 @@
 from django.db import models
-from Faculty.models import HOD,Teacher
+from Faculty.models import HOD,Teacher,Assignment
+import datetime
+from django.utils import timezone
 # Create your models here.
 
 Sec_CHOICES =(
@@ -45,3 +47,9 @@ class Student(models.Model):
     simg  = models.ImageField(upload_to='static/Student/img')
     isverified = models.BooleanField(default=False)
 
+class sAssignment(models.Model):
+    subject = models.ForeignKey(Assignment,on_delete=models.CASCADE)
+    assignment = models.FileField(upload_to = 'assignments/student/pdf/')
+    anumber = models.IntegerField()
+    dueDate = models.DateField(default= timezone.now)
+    isSubmited = models.BooleanField( default=False,)

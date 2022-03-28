@@ -23,7 +23,8 @@
 
 {% for i in teacherdata %}
 
-    <img src="{% static i.fimg %}" alt="img" class="img-fluid propic">
+    {% comment %} <img src="{% static i.fimg %}" alt="img" class="img-fluid propic"> {% endcomment %}
+    <img src="{{i.fimg.url}}" alt="img" class="img-fluid propic"  height="200px" width="200px" >
 
  
 
